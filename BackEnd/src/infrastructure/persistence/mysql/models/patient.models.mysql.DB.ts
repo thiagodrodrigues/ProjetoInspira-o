@@ -1,12 +1,12 @@
 import * as Sequelize from "sequelize";
 import { MySqlDatabase } from "../mysql.database";
 
-export default MySqlDatabase.getInstance().createModel('exams', {
-    idExams: {
+export default MySqlDatabase.getInstance().createModel('patients', {
+    idPatient: {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        field: 'idExams'
+        allowNull: true,
     },
     idUser: {
         type: Sequelize.DataTypes.INTEGER,
@@ -19,17 +19,23 @@ export default MySqlDatabase.getInstance().createModel('exams', {
           key: 'idUser'
         }
     },
-    exam: Sequelize.DataTypes.STRING,
-    date: Sequelize.DataTypes.DATE, 
-    diagnosis: Sequelize.DataTypes.STRING,
-    clinic: Sequelize.DataTypes.STRING,
-    doctor: Sequelize.DataTypes.STRING,
+    phone: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    birth: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: false
+    }, 
+    sex: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    profession: Sequelize.DataTypes.STRING,
+    medical: Sequelize.DataTypes.STRING,
+    lifestyle: Sequelize.DataTypes.STRING,
+    condition: Sequelize.DataTypes.STRING,
     comments: Sequelize.DataTypes.STRING,
     createdAt: Sequelize.DataTypes.DATE,
     updatedAt: Sequelize.DataTypes.DATE,
 });
-
-
-   
-   
-    
