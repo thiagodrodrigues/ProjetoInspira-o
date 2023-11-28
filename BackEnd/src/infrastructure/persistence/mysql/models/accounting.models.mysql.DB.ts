@@ -22,6 +22,10 @@ export default MySqlDatabase.getInstance().createModel('accountings', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
+    year: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false
+    },
     appointments: Sequelize.DataTypes.INTEGER,
     collected: Sequelize.DataTypes.INTEGER,
     createdAt: Sequelize.DataTypes.DATE,

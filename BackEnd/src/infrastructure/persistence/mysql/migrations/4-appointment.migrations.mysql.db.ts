@@ -33,7 +33,10 @@ export default {
             },
             status: {
                 type: Sequelize.DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
+                validate: {
+                    isIn: [['Realizada', 'Agendada', 'Cancelada']],
+                },
             },
             date: Sequelize.DataTypes.DATE,
             time: Sequelize.DataTypes.STRING,

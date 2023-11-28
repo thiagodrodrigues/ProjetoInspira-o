@@ -6,6 +6,7 @@ export default function (accounting:any): AccountingEntity | undefined {
     let examGeneral: AccountingEntity = {
         idAccounting: accounting.idAccounting,
         month: accounting.month,
+        year: accounting.year,
         appointments: accounting.appointments,
         collected: accounting.collected
     }

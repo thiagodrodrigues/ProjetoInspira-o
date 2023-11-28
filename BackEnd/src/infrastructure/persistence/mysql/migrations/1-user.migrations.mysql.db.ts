@@ -10,9 +10,18 @@ export default {
                 allowNull: true,
             },
             name: Sequelize.DataTypes.STRING,
-            email: Sequelize.DataTypes.STRING,
+            email: {
+                type: Sequelize.DataTypes.STRING,
+                unique: true,
+            },
             password: Sequelize.DataTypes.STRING,
-            professional: Sequelize.DataTypes.STRING,
+            professional: {
+                type: Sequelize.DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    isIn: [['Administrador', 'Usuário', 'Fisioterapeuta']],
+                },
+            },
             createdAt: Sequelize.DataTypes.DATE,
             updatedAt: Sequelize.DataTypes.DATE,
         });
