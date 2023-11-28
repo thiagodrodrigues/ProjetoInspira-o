@@ -1,7 +1,7 @@
 import { IUsersEntity } from "./user.entity";
 
 export interface IPatientEntity extends IUsersEntity {
-  id?: number,
+  idPatient?: number,
   phone: string,
   birth: string,
   sex: string,

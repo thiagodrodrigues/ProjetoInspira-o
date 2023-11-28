@@ -1,8 +1,8 @@
 export interface IAppointmentEntity {
-  id?: number,
+  idAppointment?: number,
   status: string,
-  date: string,
-  time: number,
-  activies: string,
-  comments: string,
+  date?: string,
+  time?: number,
+  activies?: string,
+  comments?: string,
 }

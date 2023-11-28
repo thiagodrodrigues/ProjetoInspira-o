@@ -1,5 +1,5 @@
 export interface IBlogEntity {
-  id?: number,
+  idBlog?: number,
   title: string,
   text: string,
   pictureMain: string

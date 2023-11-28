@@ -1,6 +1,6 @@
 export interface IAccountingEntity {
-  id?: number,
+  idAccounting?: number,
   month: string,
-  appointments: number,
-  collected: number,
+  appointments?: number,
+  collected?: number,
 }

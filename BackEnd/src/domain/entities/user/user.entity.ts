@@ -1,7 +1,7 @@
 export interface IUsersEntity {
-    id?: number,
+    idUser?: number,
     name: string,
     email: string,
     password: string,
-    function: string
+    professional: string
 }
