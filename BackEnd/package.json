@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node --unhandled-rejections=strict -r dotenv/config ./dist/infrastructure/apis/app/app.js",
-    "debug": "set DEBUG=* && tsc && npm run start"
+    "debug": "set DEBUG=* && tsc && npm run start",
+    "dbdrop": "tsc && npx sequelize db:drop",
+    "migrations": "tsc && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all"
   },
   "keywords": [
     "Clinica",

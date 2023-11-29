@@ -23,7 +23,7 @@ export default MySqlDatabase.getInstance().createModel('blogs', {
         allowNull: false
     },
     text: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.DataTypes.TEXT('long'),
         allowNull: false
     },
     pictureMain: {

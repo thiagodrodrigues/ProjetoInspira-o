@@ -11,7 +11,6 @@ export default function (user: any): UsersEntity | undefined {
         idUser: user.idUser,
         name: user.name,
         email: user.email,
-        password: user.password,
         professional: user.professional
     };
 

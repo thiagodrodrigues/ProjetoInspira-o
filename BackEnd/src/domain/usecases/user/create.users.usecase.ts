@@ -1,6 +1,6 @@
 import { IUsersEntity } from "../../entities/user/user.entity";
 import { IUsersRepository } from "../../repositories/users.repository.interface";
-import UsersRepository from "../../../adapters/repositories/";
+import UsersRepository from "../../../adapters/repositories/users.repository";
 import { IUseCase } from "../usecase.interface";
 
 class CreateUsersUseCase implements IUseCase {

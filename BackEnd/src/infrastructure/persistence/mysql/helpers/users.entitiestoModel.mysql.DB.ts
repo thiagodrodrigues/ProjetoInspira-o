@@ -6,7 +6,7 @@ export default function (user: UsersEntity) {
         name: user.name,
         email: user.email,
         password: user.password,
-        professional: user.professional
+        professional: "Usuário"
     };
     
     let patientGeneral = undefined;

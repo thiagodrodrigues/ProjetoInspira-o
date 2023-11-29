@@ -27,7 +27,7 @@ export default MySqlDatabase.getInstance().createModel('accountings', {
         allowNull: false
     },
     appointments: Sequelize.DataTypes.INTEGER,
-    collected: Sequelize.DataTypes.INTEGER,
+    collected: Sequelize.DataTypes.DECIMAL(8, 2),
     createdAt: Sequelize.DataTypes.DATE,
     updatedAt: Sequelize.DataTypes.DATE,
 });

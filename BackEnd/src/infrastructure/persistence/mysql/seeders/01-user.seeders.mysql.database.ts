@@ -1,5 +1,9 @@
 import * as Sequelize from 'sequelize';
+import bcrypt from 'bcrypt';
 
+
+let pass = "123456";
+let shufflePass = bcrypt.hashSync(pass,10);
 export default {
   up: (queryInterface: Sequelize.QueryInterface) => {
     return queryInterface.bulkInsert('users', [
@@ -7,7 +11,7 @@ export default {
         idUser: 1,
         name: 'Thiago Daniel Alvim Rodrigues',
         email: 'thiago.alvimrodrigues@gmail.com',
-        password: '123456',
+        password: shufflePass,
         professional: 'Administrador',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -16,7 +20,7 @@ export default {
         idUser: 2,
         name: 'Samantha Smitham Sr.',
         email: 'samantha@gmail.com',
-        password: '123456',
+        password: shufflePass,
         professional: 'Administrador',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -25,7 +29,7 @@ export default {
         idUser: 3,
         name: 'Joy Tremblay',
         email: 'joy.tremblay@gmail.com',
-        password: '123456',
+        password: shufflePass,
         professional: 'Usuário',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -34,7 +38,7 @@ export default {
         idUser: 4,
         name: 'Jeanette Feeney',
         email: 'jeanette.feeney@gmail.com',
-        password: '123456',
+        password: shufflePass,
         professional: 'Fisioterapeuta',
         createdAt: new Date(),
         updatedAt: new Date(),

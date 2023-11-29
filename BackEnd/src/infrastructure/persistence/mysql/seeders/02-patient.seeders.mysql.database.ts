@@ -7,7 +7,7 @@ export default {
         idPatient: 1,
         idUser: 3,
         phone: '3199999999',
-        birth: '01/01/1968',
+        birth: '1968-01-01',
         sex: 'Feminino',
         profession: 'Funcionário Publico',
         medical: 'Fratura na perna',
