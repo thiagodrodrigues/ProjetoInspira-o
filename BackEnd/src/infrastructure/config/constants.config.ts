@@ -20,6 +20,7 @@ export default {
                 VOID_PASSWORD: `O campo 'Senha' deve ser preenchido`,
                 VOID_BIRTHDATE: `O campo 'Data de Nascimento' deve ser preenchido`,
                 STATUS_NOT_TRUE: `Você precisa concordar com os Termos de Uso.`,
+                REQUIRE_LOGIN: "Você precisa estar logado para executar essa ação."
             }
         }
     },

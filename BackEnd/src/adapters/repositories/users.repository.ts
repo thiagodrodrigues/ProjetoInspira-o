@@ -45,7 +45,7 @@ export class UsersRepository implements IUsersRepository {
             const user = await this._database.readByWhere(this._modelUser, {
                 email: email
             });
-            return modelsToEntities(user);
+            return modelsToEntities(user, true);
         } catch(err){
             throw new Error((err as Error).message);
         }
@@ -70,11 +70,43 @@ export class UsersRepository implements IUsersRepository {
   }
 
     async updateById(resource: UsersEntity): Promise<UsersEntity | undefined> {
-        let userModel = await this._database.read(this._modelUser, Number(resource.idUser));
-        const { userGeneral } = entitiesToModels(resource);
-        await this._database.update(userModel, userGeneral);
+        let userModel = await this._database.read(this._modelUser, Number(resource.idUser), {
+            include: [
+              'patients',
+              'fisioterapists',
+            ],
+          });
+        const { userGeneral, fisioterapistGeneral, patientGeneral } = entitiesToModels(resource);
+        userModel = await this._database.update( userModel, userGeneral);
+        if(patientGeneral){
+            let patientModel = undefined
+            if(userModel.patients.idPatient == undefined){
+                patientModel = await this._database.create(this._modelPatient, patientGeneral);
+            } else {
+                patientModel = await this._database.update(userModel.patients, patientGeneral);
+            }
+            userModel = {
+                ...userModel,
+                patientModel
+            }
+        }
+        if(fisioterapistGeneral){
+            let fisioterapistModel = undefined
+            if(userModel.fisioterapists.idFisioterapist == undefined){
+                fisioterapistModel = await this._database.create(this._modelFisioterapist, fisioterapistGeneral);
+            } else {
+                fisioterapistModel = await this._database.update(userModel.fisioterapists, fisioterapistGeneral);
+            }
+            userModel = {
+                ...userModel,
+                fisioterapistModel
+            }
+        }
+        let response = modelsToEntities(userModel);
 
-        return resource;
+
+
+        return response!;
     }
 
     async listById(idUser: number): Promise<UsersEntity[]> {

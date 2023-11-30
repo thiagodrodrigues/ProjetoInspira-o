@@ -6,12 +6,17 @@ import debug from 'debug';
 class UserService {
   async encryptPassword(data: IUsersEntity){
     try {
-      let shufflePass = bcrypt.hashSync(data.password!,10);
-      let dataSend = {
-        ...data,
-        password: shufflePass,
+      if(data.password){
+        let shufflePass = bcrypt.hashSync(data.password!,10);
+        let dataSend = {
+          ...data,
+          password: shufflePass,
+        }
+        return dataSend
+      } else {
+        return data
       }
-      return dataSend
+
     } catch (error) {
     }
   }

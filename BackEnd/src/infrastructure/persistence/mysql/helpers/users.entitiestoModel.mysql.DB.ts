@@ -1,18 +1,17 @@
 import { UsersEntity } from "../../../../domain/entities/user/type.users.entity";
 
 export default function (user: UsersEntity) {
-    const userGeneral = {
+    let userGeneral = {
         idUser:  user.idUser,
         name: user.name,
         email: user.email,
         password: user.password,
-        professional: "Usuário"
+        professional: user.professional || "Usuário"
     };
     
     let patientGeneral = undefined;
     if('phone' in user){
         patientGeneral = {
-            idPatient: undefined,
             phone: user.phone,
             birth: user.birth,
             sex: user.sex,
@@ -27,7 +26,6 @@ export default function (user: UsersEntity) {
     let fisioterapistGeneral = undefined;
     if('crefito' in user){
         fisioterapistGeneral = {
-            idFisioterapist: undefined,
             crefito: user.crefito
         }
     }

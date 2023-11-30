@@ -1,5 +1,7 @@
 import { CommonRoutesConfig } from "./common.routes.config";
 import usersControllers from "../controllers/users.controllers";
+import usersMiddlewares from "../middlewares/users.middlewares";
+import authMiddleware from "../middlewares/auth.middleware";
 import express from "express";
 
 export class UserRoutes extends CommonRoutesConfig {
@@ -14,19 +16,15 @@ export class UserRoutes extends CommonRoutesConfig {
 
         this.app.route('/users/create')
             .post(
-/*                 userMiddleware.validateRequiredAgeBodyFields, // Verifica se o campo Idade foi preenchido
-                userMiddleware.validateRequiredEmailBodyFields, // Verifica se o campo Email foi preenchido
-                userMiddleware.validateRequiredNameBodyFields, // Verifica se o campo Nome foi preenchido
-                userMiddleware.validateRequiredPasswordBodyFields, // Verifica se o campo Senha foi preenchido
-                userMiddleware.validateRequiredPhotoBodyFields, // Verifica se o campo Foto foi preenchido
-                userMiddleware.validateRequiredUsernameFields, // Verifica se o campo Username foi preenchido
-                userMiddleware.validateEmailRepeated, // Verifica se o email informado é único
-                userMiddleware.validateUsernameRepeated, // Verifica se o username informado é único */
+                usersMiddlewares.validateRequiredEmailBodyFields, // Verifica se o campo Email foi preenchido
+                usersMiddlewares.validateRequiredNameBodyFields, // Verifica se o campo Nome foi preenchido
+                usersMiddlewares.validateRequiredPasswordBodyFields, // Verifica se o campo Senha foi preenchido
+                usersMiddlewares.validateUserRepeated, // Verifica se o email informado é único
                 usersControllers.createUser // Cria novo usuário
             );
         
-        this.app.route('/users/:_id')
-            /* .all(LoginAuthMiddleware.checkAuth) */
+        this.app.route('/users/:idUser')
+            .all(authMiddleware.checkAuth)
             .put(
    /*              userMiddleware.validateRequiredAgeBodyFields, // Verifica se o campo Idade foi preenchido
                 userMiddleware.validateRequiredEmailBodyFields, // Verifica se o campo Email foi preenchido

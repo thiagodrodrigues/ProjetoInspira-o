@@ -52,7 +52,12 @@ class UserController {
 
     async updateUser(req: express.Request, res: express.Response) {
       try {
-        const user = await updateUsersUsecase.execute(req.body);
+        let data = await usersService.encryptPassword(req.body);
+        data = {
+          ...data!,
+          idUser: Number(req.params.idUser)
+        }
+        const user = await updateUsersUsecase.execute(data!);
         res.status(200).send(user);
       } catch (error) {
         res.status(500).send({
