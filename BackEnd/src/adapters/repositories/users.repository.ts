@@ -80,15 +80,12 @@ export class UsersRepository implements IUsersRepository {
         userModel = await this._database.update( userModel, userGeneral);
         if(patientGeneral){
             let patientModel = undefined
-            if(userModel.patients.idPatient == undefined){
+            if(userModel.patients == null || userModel.patients.idPatient == undefined ){
                 patientModel = await this._database.create(this._modelPatient, patientGeneral);
             } else {
                 patientModel = await this._database.update(userModel.patients, patientGeneral);
             }
-            userModel = {
-                ...userModel,
-                patientModel
-            }
+            userModel.patients = patientModel;
         }
         if(fisioterapistGeneral){
             let fisioterapistModel = undefined
@@ -97,15 +94,9 @@ export class UsersRepository implements IUsersRepository {
             } else {
                 fisioterapistModel = await this._database.update(userModel.fisioterapists, fisioterapistGeneral);
             }
-            userModel = {
-                ...userModel,
-                fisioterapistModel
-            }
+            userModel.fisioterapists = fisioterapistModel;
         }
         let response = modelsToEntities(userModel);
-
-
-
         return response!;
     }
 

@@ -12,6 +12,7 @@ export default function (user: UsersEntity) {
     let patientGeneral = undefined;
     if('phone' in user){
         patientGeneral = {
+            idUser: user.idUser,
             phone: user.phone,
             birth: user.birth,
             sex: user.sex,
@@ -26,6 +27,7 @@ export default function (user: UsersEntity) {
     let fisioterapistGeneral = undefined;
     if('crefito' in user){
         fisioterapistGeneral = {
+            idUser: user.idUser,
             crefito: user.crefito
         }
     }
