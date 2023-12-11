@@ -10,6 +10,13 @@ export default {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        idFisioterapist: 2,
+        idUser: 5,
+        crefito: "665544",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ])
   },
   down: (queryInterface: Sequelize.QueryInterface) => {

@@ -5,8 +5,7 @@ export default {
     return queryInterface.bulkInsert('appointments', [
       {
         idAppointment: 1,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Realizada",
         date: new Date(),
         time: "10:00",
@@ -17,8 +16,7 @@ export default {
       },
       {
         idAppointment: 2,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Agendada",
         date: new Date(),
         time: "10:00",
@@ -27,8 +25,7 @@ export default {
       },
       {
         idAppointment: 3,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Realizada",
         date: new Date(),
         time: "10:00",
@@ -39,8 +36,7 @@ export default {
       },
       {
         idAppointment: 4,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Realizada",
         date: new Date(),
         time: "10:00",
@@ -51,8 +47,7 @@ export default {
       },
       {
         idAppointment: 5,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Realizada",
         date: new Date(),
         time: "10:00",
@@ -63,8 +58,7 @@ export default {
       },
       {
         idAppointment: 6,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Realizada",
         date: new Date(),
         time: "10:00",
@@ -75,8 +69,7 @@ export default {
       },
       {
         idAppointment: 7,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Realizada",
         date: new Date(),
         time: "10:00",
@@ -87,8 +80,7 @@ export default {
       },
       {
         idAppointment: 8,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Realizada",
         date: new Date(),
         time: "10:00",
@@ -99,8 +91,7 @@ export default {
       },
       {
         idAppointment: 9,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Realizada",
         date: new Date(),
         time: "10:00",
@@ -111,8 +102,7 @@ export default {
       },
       {
         idAppointment: 10,
-        idPatient: 1,
-        idFisioterapist: 1,
+        idPatientFisioterapist: 1,
         status: "Realizada",
         date: new Date(),
         time: "10:00",

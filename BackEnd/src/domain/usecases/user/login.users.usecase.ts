@@ -16,7 +16,7 @@ class LoginAuthUseCase implements IUseCase {
             });
             return {
                 user: user,
-                token: token
+                token: token,
             };
         }
         return;

@@ -13,6 +13,15 @@ export default function (user: any, typePassword?: boolean): UsersEntity | undef
         professional: user.professional
     };
 
+    if(user.users){
+        userGeneral = {
+            idUser: user.users.idUser,
+            name: user.users.name,
+            email: user.users.email,
+            professional: user.users.professional
+        };
+    }
+
     if (typePassword) {
         userGeneral = {
             ...userGeneral,
@@ -35,11 +44,30 @@ export default function (user: any, typePassword?: boolean): UsersEntity | undef
         } as IPatientEntity;
     }
 
+    if (user.phone) {
+        userGeneral = {
+            ...userGeneral,
+            patients: {
+                idPatient: user.idPatient,
+                phone: user.phone,
+                birth: user.birth,
+                sex: user.sex,
+                profession: user.profession,
+                medical: user.medical,
+                lifestyle: user.lifestyle,
+                condition: user.condition,
+                comments: user.comments
+            }
+        } as IPatientEntity;
+    }
+
     if (user.fisioterapists) {
         userGeneral = {
             ...userGeneral,
-            idFisioterapist: user.fisioterapists.idFisioterapist,
-            crefito: user.fisioterapists.crefito
+            fisioterapists: {
+                idFisioterapist: user.fisioterapists.idFisioterapist,
+                crefito: user.fisioterapists.crefito
+            }
         } as IFisioterapistEntity;
     }
 

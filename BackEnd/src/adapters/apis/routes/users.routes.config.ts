@@ -40,7 +40,10 @@ export class UserRoutes extends CommonRoutesConfig {
             .delete(usersControllers.removeUser) // Deletar usuário
         
         this.app.route('/patients')
-            /* .all(LoginAuthMiddleware.checkAuth) */
+            .all(
+                authMiddleware.checkAuth,
+                usersMiddlewares.validateFisioterapist,
+                )
             .get(usersControllers.listUser) // Lista todos os usuários
             .put(
 /*                 userMiddleware.validateRequiredAgeBodyFields, // Verifica se o campo Idade foi preenchido

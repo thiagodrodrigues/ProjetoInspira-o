@@ -21,6 +21,14 @@ class AuthMiddleware {
                         error: constantsConfig.USERS.MESSAGES.ERROR.REQUIRE_LOGIN
                     });
                 } else {
+                    req.body.userInfo = {
+                        idUser: decoded.idUser,
+                        name: decoded.name,
+                        email: decoded.email,
+                        professional: decoded.professional,
+                        idFisioterapist: decoded.fisioterapists?.idFisioterapist || undefined,
+                        idPatient: decoded.patients?.idPatient || undefined
+                    };
                     next();
                 }
             }

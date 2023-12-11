@@ -75,6 +75,15 @@ class UserMiddleware {
         }
     }
 
+    async validateFisioterapist(req: express.Request, res: express.Response, next: express.NextFunction){
+        const professional = await req.body.userInfo.professional;
+        if(professional === "Administrador" || professional === "Fisioterapeuta"){
+            next();
+        } else {
+            res.status(400).send({error: constantsConfig.USERS.MESSAGES.ERROR.USER_UNAUTHORIZED})
+        }
+    }
+
 }
 
 export default new UserMiddleware();

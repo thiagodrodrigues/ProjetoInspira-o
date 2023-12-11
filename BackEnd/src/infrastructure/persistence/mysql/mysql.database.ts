@@ -86,11 +86,9 @@ export class MySqlDatabase implements IDatabaseModel {
     }
 
 
-    async listById(model: Sequelize.ModelCtor<Sequelize.Model<any,any>>, dataWhere: Sequelize.WhereOptions<any>):Promise<any> {
+    async listById(model: Sequelize.ModelCtor<Sequelize.Model<any,any>>, includes: object):Promise<any> {
         try{
-            const user = await model.findAll({
-                where: dataWhere
-            })
+            const user = await model.findAll(includes)
             return user;
         
     }   catch(err){
@@ -98,11 +96,9 @@ export class MySqlDatabase implements IDatabaseModel {
         }
     }
 
-    readByWhere(model: Sequelize.ModelCtor<Sequelize.Model<any, any>>, dataWhere: Sequelize.WhereOptions<any>): any {
+    readByWhere(model: Sequelize.ModelCtor<Sequelize.Model<any, any>>, includes: object): any {
         try{
-            return model.findOne({
-                where: dataWhere
-            });
+            return model.findOne(includes);
         } catch(err){
             throw new Error((err as Error).message);
         }

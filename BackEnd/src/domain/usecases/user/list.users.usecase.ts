@@ -6,8 +6,8 @@ import { IUseCase } from "../usecase.interface";
 class ListUsersUseCase implements IUseCase {
     constructor(private _repository: IUsersRepository) {
     }
-    async execute(): Promise<UsersEntity[] | undefined> {
-        return await this._repository.list();
+    async execute(idFisioterapist: number): Promise<UsersEntity[] | undefined> {
+        return await this._repository.listById(idFisioterapist);
     }
 }
 

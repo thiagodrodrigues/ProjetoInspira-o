@@ -14,7 +14,7 @@ const log: debug.IDebugger = debug('app:user-controller');
 class UserController {
     async listUser(req: express.Request, res: express.Response){
       try {
-        const users = await listUsersUsecase.execute();
+        const users = await listUsersUsecase.execute(req.body.userInfo.idFisioterapist);
         res.status(200).send(users);
       } catch (error) {
         res.status(500).send({
@@ -88,6 +88,8 @@ class UserController {
                   idUser: user.user.idUser,
                   name: user.user.name,
                   email: user.user.email,
+                  idFisioterapist: user.user.fisioterapists?.idFisioterapist || undefined,
+                  idPatient: user.user.patients?.idPatient || undefined,
               },
               token: user.token
           });

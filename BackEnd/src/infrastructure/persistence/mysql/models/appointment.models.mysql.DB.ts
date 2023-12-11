@@ -8,26 +8,15 @@ export default MySqlDatabase.getInstance().createModel('appointments', {
         field: 'idAppointment',
         autoIncrement: true
     },
-    idPatient: {
+    idPatientFisioterapist: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: {
-                    tableName: 'patients'
+                    tableName: 'patients_fisioterapists'
                  },
 
-          key: 'idPatient'
-        }
-    },
-    idFisioterapist: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-                    tableName: 'fisioterapists'
-                 },
-
-          key: 'idFisioterapist'
+          key: 'idPatientFisioterapist'
         }
     },
     status: {
