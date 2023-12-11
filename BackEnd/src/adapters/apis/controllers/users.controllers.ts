@@ -26,7 +26,7 @@ class UserController {
     async getUserById(req: express.Request, res: express.Response) {
       try {
         const user = await readUsersUsecase.execute({
-          idUser: Number(req.params.idUser)
+          idUser: Number(req.body.userInfo.idUser)
         });
         res.status(200).send(user);
       } catch (error) {
