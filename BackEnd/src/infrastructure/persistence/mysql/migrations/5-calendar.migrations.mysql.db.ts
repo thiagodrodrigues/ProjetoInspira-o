@@ -2,40 +2,38 @@ import * as Sequelize from 'sequelize';
 
 export default {
     up: (queryInterface: Sequelize.QueryInterface) => {
-        return queryInterface.createTable('appointments', {
-            idAppointment: {
+        return queryInterface.createTable('calendars', {
+            idCalendar: {
                 type: Sequelize.DataTypes.INTEGER,
                 primaryKey: true,
-                field: 'idAppointment',
+                field: 'idCalendar',
                 autoIncrement: true
             },
-            idPatientFisioterapist: {
+            idFisioterapist: {
                 type: Sequelize.DataTypes.INTEGER,
                 allowNull: false,
                 references: {
                   model: {
-                            tableName: 'patients_fisioterapists'
+                            tableName: 'fisioterapists'
                          },
-        
-                  key: 'idPatientFisioterapist'
+
+                  key: 'idFisioterapist'
                 }
             },
-            status: {
+            available: {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: false,
                 validate: {
-                    isIn: [['Realizada', 'Agendada', 'Cancelada']],
+                    isIn: [['Livre', 'Agendada', 'Bloqueada']],
                 },
             },
             date: Sequelize.DataTypes.DATE,
             time: Sequelize.DataTypes.STRING,
-            activies: Sequelize.DataTypes.STRING,
-            comments: Sequelize.DataTypes.STRING,
             createdAt: Sequelize.DataTypes.DATE,
             updatedAt: Sequelize.DataTypes.DATE,
         });
     },
     down: (queryInterface: Sequelize.QueryInterface) => {
-        return queryInterface.dropTable('appointments');
+        return queryInterface.dropTable('calendars');
     }
 }

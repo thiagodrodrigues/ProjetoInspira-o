@@ -12,6 +12,7 @@ import cookieParser from "cookie-parser";
 import apiConfig from "../../config/api.config";
 
 import { UserRoutes } from "../../../adapters/apis/routes/users.routes.config";
+import { AppointmentRoutes } from "../../../adapters/apis/routes/appointment.routes.config";
 import { CommonRoutesConfig } from "../../../adapters/apis/routes/common.routes.config";
 
 const app: express.Application = express();
@@ -43,6 +44,7 @@ if(!process.env.DEBUG) {
 app.use(expressWinston.logger(loggerOptions));
 
 routes.push(new UserRoutes(app));
+routes.push(new AppointmentRoutes(app));
 
 
 let runningMessage = `Servidor rodando na porta ${PORT}`;

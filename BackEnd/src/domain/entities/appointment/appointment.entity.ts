@@ -1,8 +1,10 @@
+import { ICalendarEntity } from "./calendar.entity.ts";
+
 export interface IAppointmentEntity {
   idAppointment?: number,
   status: string,
-  date?: string,
-  time?: number,
+  idCalendar: number,
   activies?: string,
+  notes?: string,
   comments?: string,
 }

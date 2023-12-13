@@ -19,13 +19,23 @@ export default MySqlDatabase.getInstance().createModel('appointments', {
           key: 'idPatientFisioterapist'
         }
     },
+    idCalendar: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+                    tableName: 'idCalendar'
+                 },
+
+          key: 'idCalendar'
+        }
+    },
     status: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
-    date: Sequelize.DataTypes.DATE,
-    time: Sequelize.DataTypes.STRING,
     activies: Sequelize.DataTypes.STRING,
+    notes: Sequelize.DataTypes.STRING,
     comments: Sequelize.DataTypes.STRING,
     createdAt: Sequelize.DataTypes.DATE,
     updatedAt: Sequelize.DataTypes.DATE,
