@@ -1,0 +1,34 @@
+:root {
+    --background-primary: #FFFFFF;
+    --font-primary-color: #1F7FC2;
+    --font-secondary-color: #767676;
+}
+
+@font-face {
+    font-family: beyond-the-mountains;
+    src: url("assets/fonts/beyond_the_mountains.ttf"),
+    url("assets/fonts/beyond_the_mountains.otf")
+}
+
+@font-face {
+    font-family: helvetica;
+    src: url("assets/fonts/helvetica.ttc")
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: helvetica, 'sans-serif';
+  }
+
+html, body, #root {
+    background-color: #efefef;
+    height: 100%;
+}
+
+h1, h2, h3 {
+    font-family: beyond-the-mountains, sans-serif;
+}
+
+
