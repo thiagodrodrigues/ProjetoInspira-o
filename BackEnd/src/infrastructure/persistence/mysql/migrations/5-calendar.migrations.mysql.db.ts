@@ -29,6 +29,7 @@ export default {
             },
             date: Sequelize.DataTypes.DATE,
             time: Sequelize.DataTypes.STRING,
+            duration: Sequelize.DataTypes.INTEGER,
             createdAt: Sequelize.DataTypes.DATE,
             updatedAt: Sequelize.DataTypes.DATE,
         });

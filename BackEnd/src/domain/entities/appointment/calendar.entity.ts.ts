@@ -3,5 +3,6 @@ export interface ICalendarEntity {
   idFisioterapist: number,
   available: string,
   date: string,
-  time: number,
+  time: string,
+  duration: number
 }
