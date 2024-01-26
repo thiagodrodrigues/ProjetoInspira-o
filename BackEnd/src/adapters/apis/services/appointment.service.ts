@@ -1,13 +1,12 @@
 import constantsConfig from '../../../infrastructure/config/constants.config';
 
 class AppointmentService {
-  async conversionData(data: any){
+  async conversionForDate(data: any): Promise<Date>{
     try {
-      let response = {
-
-      }
+      let response = new Date(`${data.year}-${data.month}-${data.day}`,)
       return response;
     } catch (error) {
+      return new Date()
     }
   }
   

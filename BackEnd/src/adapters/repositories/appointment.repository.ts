@@ -78,6 +78,13 @@ export class AppointmentRepository implements IAppointmentRepository {
         }
     }
 
+    async readByDate(resource: Date): Promise<ICalendarEntity[] | undefined> {
+        const calendarModel = await this._database.getAll(this._modelCalendar, undefined, {
+            date: resource
+          });
+          return calendarModel!;
+    }
+
 }
 
 export default new AppointmentRepository(

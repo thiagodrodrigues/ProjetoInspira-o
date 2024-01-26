@@ -24,7 +24,7 @@ export default {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: false,
                 validate: {
-                    isIn: [['Livre', 'Agendada', 'Bloqueada']],
+                    isIn: [['Livre', 'Agendada', 'Bloqueada', 'Realizada', 'Falta']],
                 },
             },
             date: Sequelize.DataTypes.DATE,

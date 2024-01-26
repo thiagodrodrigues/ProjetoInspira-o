@@ -12,6 +12,7 @@ export class AppointmentRoutes extends CommonRoutesConfig {
         
         this.app.route(`/appointment`)
         .all(authMiddleware.checkAuth)
+        .get(appointmentControllers.getSchedule)
         .post(appointmentControllers.createAppointment); // Criar agendamento
 
         this.app.route('/schedule')
