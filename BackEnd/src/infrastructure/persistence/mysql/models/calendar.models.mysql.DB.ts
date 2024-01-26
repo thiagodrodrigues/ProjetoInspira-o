@@ -23,7 +23,7 @@ export default MySqlDatabase.getInstance().createModel('calendars', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate: {
-            isIn: [['Livre', 'Agendada', 'Bloqueada']],
+            isIn: [['Livre', 'Agendada', 'Bloqueada', 'Realizada', 'Falta']],
         },
     },
     date: Sequelize.DataTypes.DATE,
