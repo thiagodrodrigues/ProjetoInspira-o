@@ -22,6 +22,10 @@ export const UlStyle = styled.ul`
 `
 
 export const LiStyle = styled.li`
-   color: var(--font-secondary-color)
+   color: var(--font-secundary-color)
 `
+export const MainStyle = styled.main`
+    padding-inline: 7rem;
+`
+
 

@@ -1,0 +1,41 @@
+.articleContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 3%;
+}
+
+.articleContainerLeft {
+    flex-direction: row-reverse;
+}
+
+.articleContainerRight {
+    flex-direction: row;
+}
+
+.articleText {
+    width: 45%;
+    font-size: 0.8rem;
+}
+
+.articleText h4 {
+    color: var(--font-primary-color)
+}
+
+.articleImages {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.articleImages img {
+    width: 100%;
+    max-width: 400px;
+    max-height: 400px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.articleImages :last-child{
+    margin-bottom: 0;
+}

@@ -9,8 +9,6 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <section>
             <RouterProvider router={router} />
-        </section>
     </React.StrictMode>,
 )

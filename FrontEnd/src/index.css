@@ -1,7 +1,8 @@
 :root {
     --background-primary: #FFFFFF;
     --font-primary-color: #1F7FC2;
-    --font-secondary-color: #767676;
+    --font-secundary-color: #1C9CA1;
+    --font-tertiary-color: #767676;
 }
 
 @font-face {
@@ -25,9 +26,10 @@
 html, body, #root {
     background-color: #efefef;
     height: 100%;
+    width: 100%;
 }
 
-h1, h2, h3 {
+h1, h2 {
     font-family: beyond-the-mountains, sans-serif;
 }
 

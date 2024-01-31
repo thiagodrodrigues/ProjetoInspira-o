@@ -1,0 +1,40 @@
+.CardContainer {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 3%;
+}
+
+.card {
+    width: 30%;
+    padding: 1rem;
+    background-color: rgba(28,156,161, 0.4);
+    border-radius: .9rem;
+}
+.card img {
+    max-width: 100%;
+    margin-bottom: 1rem;
+    border-radius: .3rem;
+}
+
+.card h5 {
+    color: var(--font-primary-color);
+}
+
+.card p {
+    font-size: .8rem;
+    margin-bottom: 4rem;
+}
+
+.card button {
+    color: #FFFFFF;
+    background-color: var(--font-primary-color);
+    padding: .2rem .5rem;
+    border: none;
+    border-radius: .2rem;
+}
+
+.buttonContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
