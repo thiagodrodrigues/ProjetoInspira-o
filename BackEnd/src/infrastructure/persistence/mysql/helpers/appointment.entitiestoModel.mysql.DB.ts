@@ -1,12 +1,12 @@
 import { AppointmentEntity } from "../../../../domain/entities/appointment/type.appointment.entity"
+import app from "../../../apis/app/app";
 
 export default function (appointment: AppointmentEntity ){
    
   let appointmentGeneral = undefined;
-  if('status' in appointment){
+  if('notes' in appointment){
     appointmentGeneral = {
       idAppointment: appointment.idAppointment,
-      status: appointment.status,
       idCalendar: appointment.idCalendar,
       activies: appointment.activies,
       notes: appointment.notes,
@@ -21,7 +21,8 @@ export default function (appointment: AppointmentEntity ){
       idFisioterapist: appointment.idFisioterapist,
       available: appointment.available,
       date: appointment.date,
-      time: appointment.time
+      time: appointment.time,
+      duration: appointment.duration
     }
   }
 

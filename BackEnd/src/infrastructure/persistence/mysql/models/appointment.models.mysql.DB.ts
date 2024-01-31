@@ -30,10 +30,6 @@ export default MySqlDatabase.getInstance().createModel('appointments', {
           key: 'idCalendar'
         }
     },
-    status: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false
-    },
     activies: Sequelize.DataTypes.STRING,
     notes: Sequelize.DataTypes.STRING,
     comments: Sequelize.DataTypes.STRING,

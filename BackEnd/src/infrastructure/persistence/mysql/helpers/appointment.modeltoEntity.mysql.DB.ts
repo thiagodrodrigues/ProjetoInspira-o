@@ -8,7 +8,6 @@ export default function (appointment:any): AppointmentEntity | undefined {
   if(appointment.status){
     appointmentGeneral = {
       idAppointment: appointment.idAppointment,
-      status: appointment.status,
       idCalendar: appointment.idCalendar,
       activies: appointment.activies,
       notes: appointment.notes,
@@ -22,7 +21,8 @@ export default function (appointment:any): AppointmentEntity | undefined {
       idFisioterapist: appointment.idFisioterapist,
       available: appointment.available,
       date: appointment.date,
-      time: appointment.time
+      time: appointment.time,
+      duration: appointment.duration
     }
   }
 

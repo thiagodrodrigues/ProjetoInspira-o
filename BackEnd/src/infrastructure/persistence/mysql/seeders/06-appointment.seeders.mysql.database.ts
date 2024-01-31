@@ -6,7 +6,6 @@ export default {
       {
         idAppointment: 1,
         idPatientFisioterapist: 1,
-        status: "Realizada",
         idCalendar: 1,
         activies: "Exercícios Regulares",
         comments: "Prática realizada com sucesso",
@@ -16,7 +15,6 @@ export default {
       {
         idAppointment: 2,
         idPatientFisioterapist: 1,
-        status: "Agendada",
         idCalendar: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -24,7 +22,6 @@ export default {
       {
         idAppointment: 3,
         idPatientFisioterapist: 1,
-        status: "Realizada",
         idCalendar: 3,
         activies: "Exercícios Regulares",
         comments: "Prática realizada com sucesso",
@@ -34,7 +31,6 @@ export default {
       {
         idAppointment: 4,
         idPatientFisioterapist: 1,
-        status: "Realizada",
         idCalendar: 4,
         activies: "Exercícios Regulares",
         comments: "Prática realizada com sucesso",
@@ -44,7 +40,6 @@ export default {
       {
         idAppointment: 5,
         idPatientFisioterapist: 1,
-        status: "Realizada",
         idCalendar: 5,
         activies: "Exercícios Regulares",
         comments: "Prática realizada com sucesso",
@@ -54,7 +49,6 @@ export default {
       {
         idAppointment: 6,
         idPatientFisioterapist: 1,
-        status: "Realizada",
         idCalendar: 6,
         activies: "Exercícios Regulares",
         comments: "Prática realizada com sucesso",
@@ -64,7 +58,6 @@ export default {
       {
         idAppointment: 7,
         idPatientFisioterapist: 1,
-        status: "Realizada",
         idCalendar: 7,
         activies: "Exercícios Regulares",
         notes: "Paciente com comportamento complicado",
@@ -75,7 +68,6 @@ export default {
       {
         idAppointment: 8,
         idPatientFisioterapist: 1,
-        status: "Realizada",
         idCalendar: 8,
         activies: "Exercícios Regulares",
         comments: "Prática realizada com sucesso",
@@ -86,7 +78,6 @@ export default {
       {
         idAppointment: 9,
         idPatientFisioterapist: 1,
-        status: "Realizada",
         idCalendar: 9,
         activies: "Exercícios Regulares",
         comments: "Prática realizada com sucesso",
@@ -96,7 +87,6 @@ export default {
       {
         idAppointment: 10,
         idPatientFisioterapist: 1,
-        status: "Realizada",
         idCalendar: 10,
         activies: "Exercícios Regulares",
         comments: "Prática realizada com sucesso",

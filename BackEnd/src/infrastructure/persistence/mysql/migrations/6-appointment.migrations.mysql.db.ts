@@ -31,13 +31,6 @@ export default {
                   key: 'idCalendar'
                 }
             },
-            status: {
-                type: Sequelize.DataTypes.STRING,
-                allowNull: false,
-                validate: {
-                    isIn: [['Realizada', 'Agendada', 'Cancelada']],
-                },
-            },
             activies: Sequelize.DataTypes.STRING,
             notes: Sequelize.DataTypes.STRING,
             comments: Sequelize.DataTypes.STRING,

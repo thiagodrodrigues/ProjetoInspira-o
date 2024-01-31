@@ -24,11 +24,12 @@ export default {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: false,
                 validate: {
-                    isIn: [['Livre', 'Agendada', 'Bloqueada']],
+                    isIn: [['Livre', 'Agendada', 'Bloqueada', 'Realizada', 'Falta']],
                 },
             },
             date: Sequelize.DataTypes.DATE,
             time: Sequelize.DataTypes.STRING,
+            duration: Sequelize.DataTypes.INTEGER,
             createdAt: Sequelize.DataTypes.DATE,
             updatedAt: Sequelize.DataTypes.DATE,
         });

@@ -103,4 +103,16 @@ export class MySqlDatabase implements IDatabaseModel {
             throw new Error((err as Error).message);
         }
     }
+
+    getAll(model: Sequelize.ModelCtor<Sequelize.Model<any, any>>, includes: object, dataWhere: Sequelize.WhereOptions<any>,): any {
+        try{
+            return model.findAll({
+                where: dataWhere,
+                include: includes
+              });
+        } catch(err){
+            throw new Error((err as Error).message);
+        }
+    }
+    
 }
