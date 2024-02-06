@@ -8,7 +8,7 @@ interface SectionProps {
 
 const Section = (props: SectionProps) => {
     return (
-        <div>
+        <div className={`${styles.container}`}>
             <h2 className={`${styles.title} ${styles.line}`}>{props.title}</h2>
             <div>{props.children}</div>
         </div>

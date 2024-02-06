@@ -1,0 +1,38 @@
+.form {
+    margin: 0 auto;
+    width: auto;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 1em;
+    background-color: #FFFFFF;
+}
+
+.form div + div {
+    margin-top: 1em;
+}
+
+input, textarea {
+    width: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #999;
+}
+
+input:focus, textarea:focus {
+    border-color: #000;
+}
+
+.textarea {
+    vertical-align: top;
+    height: 5em;
+    resize: none;
+}
+
+.button {
+    padding-inline: .5rem;
+    background-color: var(--font-primary-color);
+    color: #FFFFFF;
+    border: none;
+    border-radius: .2em;
+}
+

@@ -1,4 +1,8 @@
 
+.container {
+    padding: 1rem;
+}
+
 .title {
     color: var(--font-secundary-color);
     margin-bottom: 1rem;

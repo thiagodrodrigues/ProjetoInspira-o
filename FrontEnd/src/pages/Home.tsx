@@ -2,6 +2,7 @@ import {HeaderStyle, LiStyle, LogoStyle, MainStyle, NavStyle, UlStyle} from "../
 import Article from "../components/Article";
 import Section from "../components/Section";
 import Cards from "../components/Cards";
+import Footer from "../components/Footer";
 
 const Home = () => {
     return (
@@ -58,6 +59,9 @@ const Home = () => {
                         alt={['image1', 'image2', 'image3']}
                     ></Cards>
                 </Section>
+                <Footer>
+
+                </Footer>
             </MainStyle>
 
         </>

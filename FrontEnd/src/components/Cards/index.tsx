@@ -11,7 +11,7 @@ const Cards = (props: CardsProps) => {
     return (
         <div className={`${styles.CardContainer}`}>
             {props.title.map((title, index) =>(
-                <div className={`${styles.card}`}>
+                <div key={index} className={`${styles.card}`}>
                     <img alt={props.src[index]} src={props.src[index]}></img>
                     <h5>{title}</h5>
                     <p>{props.text[index]}</p>
