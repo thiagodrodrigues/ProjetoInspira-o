@@ -10,6 +10,7 @@ import calendarModelsMysqlDB from "../../infrastructure/persistence/mysql/models
 import appointmentModeltoEntityMysql from "../../infrastructure/persistence/mysql/helpers/appointment.modeltoEntity.mysql.DB";
 import appointmentsEntitiestoModelMysql from "../../infrastructure/persistence/mysql/helpers/appointment.entitiestoModel.mysql.DB";
 import appointmentService from "../apis/services/appointment.service";
+import { IAppointmentEntity } from "../../domain/entities/appointment/appointment.entity";
 
 
 export class AppointmentRepository implements IAppointmentRepository {
@@ -98,6 +99,13 @@ export class AppointmentRepository implements IAppointmentRepository {
             idFisioterapist: resource.idFisioterapist
           });
           return calendarModel!;
+    }
+
+    async listAppointments(resourceId: number): Promise<IAppointmentEntity[] | undefined> {
+        const appointmentModel = await this._database.getAll(this._modelAppointment, 'patients_fisioterapists', {
+            "$patients_fisioterapists.idPatient$": resourceId
+          });
+          return appointmentModel!;
     }
 
 }
