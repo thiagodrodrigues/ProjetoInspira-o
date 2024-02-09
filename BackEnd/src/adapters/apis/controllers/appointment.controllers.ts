@@ -8,6 +8,7 @@ import checkCalendarAppointmentUsecase from '../../../domain/usecases/appointmen
 import getScheduleAppointmentUsecase from '../../../domain/usecases/appointment/getSchedule.appointment.usecase';
 import readpatientfisioterapistUsersUsecase from '../../../domain/usecases/user/readpatientfisioterapist.users.usecase';
 import createPatientFisioterapistUsersUsecase from '../../../domain/usecases/user/createPatientFisioterapist.users.usecase';
+import getAppointmentForPatientAppointmentUsecase from '../../../domain/usecases/appointment/getAppointmentForPatient.appointment.usecase';
 
 const log: debug.IDebugger = debug('app:appointment-controller');
 
@@ -72,6 +73,18 @@ class AppointmentController {
       try {
         const date = await appointmentService.conversionForDate(req.body);
         const getDate = await getScheduleAppointmentUsecase.execute({date: date, idFisioterapist: req.body.idFisioterapist});
+        res.status(200).send(getDate)
+      } catch (error) {
+        res.status(500).send({
+          messages: constantsConfig.STATUS.MESSAGES.STATUS500,
+        })
+      }
+    }
+
+    async getAppointment(req: express.Request, res: express.Response){
+      try {
+        console.log(req.body.userInfo)
+        const getDate = await getAppointmentForPatientAppointmentUsecase.execute(req.body.userInfo.idPatient);
         res.status(200).send(getDate)
       } catch (error) {
         res.status(500).send({
