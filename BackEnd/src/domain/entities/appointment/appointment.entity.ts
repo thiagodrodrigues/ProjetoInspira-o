@@ -1,6 +1,5 @@
-import { ICalendarEntity } from "./calendar.entity.ts";
-
 export interface IAppointmentEntity {
+  idPatientFisioterapist?: number,
   idAppointment?: number,
   idCalendar: number,
   activies?: string,

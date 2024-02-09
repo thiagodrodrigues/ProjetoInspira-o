@@ -5,10 +5,11 @@ export default function (appointment:any): AppointmentEntity | undefined {
   return
 
   let appointmentGeneral = undefined;
-  if(appointment.status){
+  if(appointment.idPatientFisioterapist){
     appointmentGeneral = {
       idAppointment: appointment.idAppointment,
       idCalendar: appointment.idCalendar,
+      idPatientFisioterapist: appointment.idPatientFisioterapist,
       activies: appointment.activies,
       notes: appointment.notes,
       comments: appointment.comments,

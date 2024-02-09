@@ -27,7 +27,7 @@ class AuthMiddleware {
                         email: decoded.email,
                         professional: decoded.professional,
                         idFisioterapist: decoded.fisioterapists?.idFisioterapist || undefined,
-                        idPatient: decoded.patients?.idPatient || undefined
+                        idPatient: decoded.idPatient || undefined
                     };
                     next();
                 }

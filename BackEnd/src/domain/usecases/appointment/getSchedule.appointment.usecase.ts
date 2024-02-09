@@ -6,7 +6,7 @@ import { AppointmentEntity } from "../../entities/appointment/type.appointment.e
 class GetScheduleUseCase implements IUseCase {
     constructor(private _repository: IAppointmentRepository) {
     }
-    async execute(data: Date): Promise<AppointmentEntity[] | undefined> {
+    async execute(data: {date: Date, idFisioterapist: number}): Promise<AppointmentEntity[] | undefined> {
         return await this._repository.readByDate(data);
     }
 }

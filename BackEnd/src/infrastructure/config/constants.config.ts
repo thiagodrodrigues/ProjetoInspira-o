@@ -5,6 +5,7 @@ export default {
             STATUS401: "Você não está autorizado a acessar este recurso.",
             STATUS403: "Acesso a este recurso é proibido.",
             STATUS404: "O recurso solicitado não foi encontrado.",
+            STATUS409: "O recurso solicitado não foi encontrado.",
             STATUS500: "Houve um erro ao buscar informações no banco de dados. Por favor, tente novamente mais tarde.",
             
         },
@@ -14,6 +15,7 @@ export default {
             ERROR: {
                 USER_UNAUTHENTICATED: "Usuário ou senha incorretos. Usuário não autenticado.",
                 USER_ALREADY_EXISTS: "Email {USER_ID} já cadastrado. Usuário já existe.",
+                APPOINTMENT_ALREADY_EXISTS: "Data e hora de IDCALENDAR {DATE} não disponíveis para agendamento.",
                 USER_NOT_FOUND: `Usuário {USER_ID} não encontrado`,
                 VOID_NAME: `O campo 'Nome' deve ser preenchido`,
                 VOID_EMAIL: `O campo 'Email' deve ser preenchido`,

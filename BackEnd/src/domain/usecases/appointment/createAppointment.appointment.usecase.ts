@@ -7,7 +7,11 @@ class CreateAppointmentUseCase implements IUseCase {
     constructor(private _repository: IAppointmentRepository) {
     }
     async execute(data: AppointmentEntity): Promise<AppointmentEntity | undefined> {
-        return await this._repository.create(data);
+        try {
+            return await this._repository.create(data);
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

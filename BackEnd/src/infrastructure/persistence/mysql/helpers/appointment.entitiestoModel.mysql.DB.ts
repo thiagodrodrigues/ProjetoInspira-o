@@ -1,5 +1,4 @@
 import { AppointmentEntity } from "../../../../domain/entities/appointment/type.appointment.entity"
-import app from "../../../apis/app/app";
 
 export default function (appointment: AppointmentEntity ){
    
@@ -8,6 +7,7 @@ export default function (appointment: AppointmentEntity ){
     appointmentGeneral = {
       idAppointment: appointment.idAppointment,
       idCalendar: appointment.idCalendar,
+      idPatientFisioterapist: appointment.idPatientFisioterapist,
       activies: appointment.activies,
       notes: appointment.notes,
       comments: appointment.comments,

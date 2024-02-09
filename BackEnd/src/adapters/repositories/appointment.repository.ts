@@ -37,13 +37,27 @@ export class AppointmentRepository implements IAppointmentRepository {
           });
       }
 
-    async create(resource: AppointmentEntity): Promise<AppointmentEntity> {
+    async create(resource: any): Promise<AppointmentEntity> {
         const { appointmentGeneral }  = appointmentsEntitiestoModelMysql(resource);
         
         const userModel = await this._database.create(this._modelAppointment, appointmentGeneral);
+        if(userModel){
+          const statusCalendar = {
+            idCalendar: resource.idCalendar,
+            idFisioterapist: resource.idFisioterapist,
+            available: "Agendada"
+          }
+          const modelCalendar = await this._database.read(this._modelCalendar, resource.idCalendar);
+          if(modelCalendar.available == "Livre"){
+            await this._database.update(modelCalendar, statusCalendar);        
+          } else {
+            console.error("A Data não está disponível para agendamento");
+            throw new Error("A Data não está disponível para agendamento"); 
+          }
+        }
         let response = await appointmentModeltoEntityMysql(userModel);
-
         return response!;
+
     }
 
     async createCalendar(resource: AppointmentEntity): Promise<AppointmentEntity> {
@@ -78,9 +92,10 @@ export class AppointmentRepository implements IAppointmentRepository {
         }
     }
 
-    async readByDate(resource: Date): Promise<ICalendarEntity[] | undefined> {
+    async readByDate(resource: any): Promise<ICalendarEntity[] | undefined> {
         const calendarModel = await this._database.getAll(this._modelCalendar, undefined, {
-            date: resource
+            date: resource.date,
+            idFisioterapist: resource.idFisioterapist
           });
           return calendarModel!;
     }

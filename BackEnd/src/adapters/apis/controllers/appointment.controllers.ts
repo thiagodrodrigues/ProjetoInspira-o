@@ -6,6 +6,8 @@ import appointmentService from '../services/appointment.service';
 import createCalendarAppointmentUsecase from '../../../domain/usecases/appointment/createCalendar.appointment.usecase';
 import checkCalendarAppointmentUsecase from '../../../domain/usecases/appointment/checkCalendar.appointment.usecase';
 import getScheduleAppointmentUsecase from '../../../domain/usecases/appointment/getSchedule.appointment.usecase';
+import readpatientfisioterapistUsersUsecase from '../../../domain/usecases/user/readpatientfisioterapist.users.usecase';
+import createPatientFisioterapistUsersUsecase from '../../../domain/usecases/user/createPatientFisioterapist.users.usecase';
 
 const log: debug.IDebugger = debug('app:appointment-controller');
 
@@ -13,13 +15,31 @@ class AppointmentController {
 
     async createAppointment(req: express.Request, res: express.Response) {
       try {
-/*         const data = await appointmentService.conversionData(req.body)
-        const user = await createAppointmentUsecase.execute(data!);
-        log(user);
-        res.status(201).send(user); */
+        let data = await readpatientfisioterapistUsersUsecase.execute(req.body);
+        if(!data){
+          data = await createPatientFisioterapistUsersUsecase.execute({
+            idPatient: req.body.userInfo.idPatient,
+            idFisioterapist: req.body.idFisioterapist
+          });
+        }
+        try {
+          const user = await createAppointmentUsecase.execute({
+            idCalendar: req.body.idCalendar,
+            idPatientFisioterapist: data!.idPatientFisioterapist,
+            notes: req.body.notes,
+            idFisioterapist: data?.idFisioterapist
+          });
+          log(user);
+          res.status(201).send(user);
+        } catch (error) {
+          res.status(409).send({
+            messages: constantsConfig.USERS.MESSAGES.ERROR.APPOINTMENT_ALREADY_EXISTS.replace('{DATE}', String(req.body.idCalendar))
+          })
+        }
+        
       } catch (error) {
         res.status(500).send({
-          messages: constantsConfig.STATUS.MESSAGES.STATUS500,
+          messages: constantsConfig.STATUS.MESSAGES.STATUS500
         })
       }
     }
@@ -51,7 +71,7 @@ class AppointmentController {
     async getSchedule(req: express.Request, res: express.Response){
       try {
         const date = await appointmentService.conversionForDate(req.body);
-        const getDate = await getScheduleAppointmentUsecase.execute(date);
+        const getDate = await getScheduleAppointmentUsecase.execute({date: date, idFisioterapist: req.body.idFisioterapist});
         res.status(200).send(getDate)
       } catch (error) {
         res.status(500).send({

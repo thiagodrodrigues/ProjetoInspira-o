@@ -1,5 +1,6 @@
 import { IDatabaseModel } from "../../infrastructure/persistence/database.model.interface";
 import { UsersEntity } from "../../domain/entities/user/type.users.entity";
+import { PatientFisioterapistEntity } from "../../domain/entities/user/patient_fisioterapist.entity";
 import { MySqlDatabase } from "../../infrastructure/persistence/mysql/mysql.database";
 import { IUsersRepository } from "../../domain/repositories/users.repository.interface";
 import * as Sequelize from 'sequelize';
@@ -65,6 +66,12 @@ export class UsersRepository implements IUsersRepository {
         let response = await modelsToEntities(userModel);
 
         return response!;
+    }
+
+    async createPatientFisioterapist(resource: PatientFisioterapistEntity): Promise<PatientFisioterapistEntity> {
+        const userModel = await this._database.create(this._modelPatientFisioterapist, resource);
+
+        return userModel!;
     }
 
     async deleteById(resourceId: number): Promise<void> {
@@ -136,7 +143,18 @@ export class UsersRepository implements IUsersRepository {
         } catch(err){
             throw new Error((err as Error).message);
         }
+    }
+
+    async readByPatientFisioterapist(data: any):  Promise<PatientFisioterapistEntity | undefined> {
+        try{
+            const user = await this._database.readByWhere(this._modelPatientFisioterapist, {
+                where: {idPatient: data.userInfo.idPatient, idFisioterapist: data.idFisioterapist},
+            });
+            return user;
+        } catch(err){
+            throw new Error((err as Error).message);
         }
+    }
 }
 
 export default new UsersRepository(
