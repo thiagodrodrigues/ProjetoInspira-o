@@ -11,6 +11,8 @@ import appointmentModeltoEntityMysql from "../../infrastructure/persistence/mysq
 import appointmentsEntitiestoModelMysql from "../../infrastructure/persistence/mysql/helpers/appointment.entitiestoModel.mysql.DB";
 import appointmentService from "../apis/services/appointment.service";
 import { IAppointmentEntity } from "../../domain/entities/appointment/appointment.entity";
+import moment from "moment";
+import { Op } from "sequelize";
 
 
 export class AppointmentRepository implements IAppointmentRepository {
@@ -101,11 +103,27 @@ export class AppointmentRepository implements IAppointmentRepository {
           return calendarModel!;
     }
 
-    async listAppointments(resourceId: number): Promise<IAppointmentEntity[] | undefined> {
-        const appointmentModel = await this._database.getAll(this._modelAppointment, 'patients_fisioterapists', {
-            "$patients_fisioterapists.idPatient$": resourceId
-          });
-          return appointmentModel!;
+    async listAppointments(resourceId: number, status?: string): Promise<IAppointmentEntity[] | undefined> {
+      let filter:any = {};
+      if (status) {
+        const today = moment(new Date()).format('YYYY-MM-DD');
+        if (status === "1") {
+          filter = {
+            "$calendars.date$": {
+              [Op.lt]: today
+            }
+          };
+        } else if (status === "2") {
+          filter = {
+            "$calendars.date$": {
+              [Op.gt]: today
+            }
+          };
+        }
+      };
+      filter["$patients_fisioterapists.idPatient$"] = resourceId;
+      const appointmentModel = await this._database.getAll(this._modelAppointment, ['patients_fisioterapists', 'calendars'], filter);
+      return appointmentModel!;
     }
 
 }
