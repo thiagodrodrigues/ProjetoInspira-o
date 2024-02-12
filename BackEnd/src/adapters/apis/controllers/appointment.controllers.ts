@@ -83,8 +83,7 @@ class AppointmentController {
 
     async getAppointment(req: express.Request, res: express.Response){
       try {
-        console.log(req.body.userInfo)
-        const getDate = await getAppointmentForPatientAppointmentUsecase.execute(req.body.userInfo.idPatient);
+        const getDate = await getAppointmentForPatientAppointmentUsecase.execute({idPatient: req.body.userInfo.idPatient, status: req.query.status});
         res.status(200).send(getDate)
       } catch (error) {
         res.status(500).send({
