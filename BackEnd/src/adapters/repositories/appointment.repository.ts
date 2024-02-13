@@ -103,7 +103,7 @@ export class AppointmentRepository implements IAppointmentRepository {
           return calendarModel!;
     }
 
-    async listAppointments(resourceId: number, status?: string): Promise<IAppointmentEntity[] | undefined> {
+    async listAppointments(resourceId?: number, status?: string, idFisioterapist?: number): Promise<IAppointmentEntity[] | undefined> {
       let filter:any = {};
       if (status) {
         const today = moment(new Date()).format('YYYY-MM-DD');
@@ -113,15 +113,24 @@ export class AppointmentRepository implements IAppointmentRepository {
               [Op.lt]: today
             }
           };
-        } else if (status === "2") {
+        } else if (status === "3") {
           filter = {
             "$calendars.date$": {
               [Op.gt]: today
             }
           };
+        }else if (status === "2") {
+          filter = {
+            "$calendars.date$": today
+          };
         }
       };
-      filter["$patients_fisioterapists.idPatient$"] = resourceId;
+      if(resourceId){
+        filter["$patients_fisioterapists.idPatient$"] = resourceId;
+      }
+      if(idFisioterapist){
+        filter["$patients_fisioterapists.idFisioterapist$"] = idFisioterapist;
+      }
       const appointmentModel = await this._database.getAll(this._modelAppointment, ['patients_fisioterapists', 'calendars'], filter);
       return appointmentModel!;
     }
