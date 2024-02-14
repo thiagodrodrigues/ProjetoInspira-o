@@ -17,7 +17,11 @@ export class AppointmentRoutes extends CommonRoutesConfig {
         
         this.app.route(`/appointment/patient`)
         .all(authMiddleware.checkAuth)
-        .get(appointmentControllers.getAppointment) // Listar todas os horários do fisioterapeuta selecionado
+        .get(appointmentControllers.getAppointment) // Listar todas as consultas; status=1 passado; status=2 hoje; status=3 futuras
+        
+        this.app.route(`/appointment/patient/:idAppointment`)
+        .all(authMiddleware.checkAuth)
+        .get(appointmentControllers.getAppointmentById) // Listar todas as consultas; status=1 passado; status=2 hoje; status=3 futuras
 
         this.app.route('/schedule')
             .all(authMiddleware.checkAuth)

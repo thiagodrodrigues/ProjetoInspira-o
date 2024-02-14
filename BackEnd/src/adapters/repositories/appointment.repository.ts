@@ -135,6 +135,11 @@ export class AppointmentRepository implements IAppointmentRepository {
       return appointmentModel!;
     }
 
+    async readById(resourceId: number): Promise<IAppointmentEntity | undefined> {
+        const appointmentModel = await this._database.read(this._modelAppointment, resourceId, {include: ['patients_fisioterapists']});
+          return appointmentModel!;
+    }
+
 }
 
 export default new AppointmentRepository(

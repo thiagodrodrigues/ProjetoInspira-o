@@ -51,7 +51,16 @@ class AppointmentService {
         times.push(formattedTime);
     }
     return times;
-}
+  }
+
+  checkRelationAppointmentUser(idFisioterapistUser?: number, idFisioterapist?: number, idPatientUser?: number, idPatient?: number){
+    let status = false;
+    console.log(idFisioterapistUser, idFisioterapist, idPatientUser, idPatient)
+    if(idFisioterapistUser == idFisioterapist || idPatientUser == idPatient){
+      status = true;
+    }
+    return status;
+  }
 
 }
 
