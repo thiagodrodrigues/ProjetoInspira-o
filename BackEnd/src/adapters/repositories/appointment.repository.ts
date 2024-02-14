@@ -140,6 +140,13 @@ export class AppointmentRepository implements IAppointmentRepository {
           return appointmentModel!;
     }
 
+    async updateById(resource: IAppointmentEntity, model: IAppointmentEntity): Promise<IAppointmentEntity | undefined> {
+        const { appointmentGeneral } = appointmentsEntitiestoModelMysql(resource);
+        model = await this._database.update(model, appointmentGeneral);
+        let response = appointmentModeltoEntityMysql(model);
+        return response! as IAppointmentEntity;
+    }
+
 }
 
 export default new AppointmentRepository(
