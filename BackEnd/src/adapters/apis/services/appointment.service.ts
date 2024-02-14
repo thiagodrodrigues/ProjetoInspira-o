@@ -54,10 +54,17 @@ class AppointmentService {
   }
 
   checkRelationAppointmentUser(idFisioterapistUser?: number, idFisioterapist?: number, idPatientUser?: number, idPatient?: number){
-    let status = false;
-    console.log(idFisioterapistUser, idFisioterapist, idPatientUser, idPatient)
-    if(idFisioterapistUser == idFisioterapist || idPatientUser == idPatient){
-      status = true;
+    let status = undefined;
+    if(idFisioterapistUser && idFisioterapistUser == idFisioterapist){
+      status = {
+        status: true,
+        relation: "Fisioterapist"
+      };
+    } else if (idPatientUser && idPatientUser == idPatient){
+      status = {
+        status: true,
+        relation: "Patient"
+      };
     }
     return status;
   }

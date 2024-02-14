@@ -9,7 +9,8 @@ export interface IAppointmentRepository {
     readByDate(resourceId: any): Promise<ICalendarEntity[] | undefined>,
     listAppointments(resourceId?: number, status?: string, idFisioterapist?: number): Promise<AppointmentEntity[] | undefined>,
     readById(resourceId: number): Promise<IAppointmentEntity | undefined>,
-/*     updateById(resource: AppointmentEntity): Promise<AppointmentEntity | undefined>,
+    updateById(resource: IAppointmentEntity, model: IAppointmentEntity): Promise<IAppointmentEntity | undefined>,
+/*     
     list(): Promise<AppointmentEntity[]>,
     listById(resourceId: number): Promise<AppointmentEntity[]>, */
 }

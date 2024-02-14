@@ -21,7 +21,8 @@ export class AppointmentRoutes extends CommonRoutesConfig {
         
         this.app.route(`/appointment/patient/:idAppointment`)
         .all(authMiddleware.checkAuth)
-        .get(appointmentControllers.getAppointmentById) // Listar todas as consultas; status=1 passado; status=2 hoje; status=3 futuras
+        .get(appointmentControllers.getAppointmentById) // Ler consulta específica
+        .put(appointmentControllers.updateAppointmentById) // Atualizar consulta
 
         this.app.route('/schedule')
             .all(authMiddleware.checkAuth)
