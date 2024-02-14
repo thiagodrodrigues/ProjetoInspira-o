@@ -9,6 +9,7 @@ import getScheduleAppointmentUsecase from '../../../domain/usecases/appointment/
 import readpatientfisioterapistUsersUsecase from '../../../domain/usecases/user/readpatientfisioterapist.users.usecase';
 import createPatientFisioterapistUsersUsecase from '../../../domain/usecases/user/createPatientFisioterapist.users.usecase';
 import getAppointmentForPatientAppointmentUsecase from '../../../domain/usecases/appointment/getAppointmentForPatient.appointment.usecase';
+import getAppointmentByIdAppointmentUsecase from '../../../domain/usecases/appointment/getAppointmentById.appointment.usecase';
 
 const log: debug.IDebugger = debug('app:appointment-controller');
 
@@ -85,6 +86,24 @@ class AppointmentController {
       try {
         const getDate = await getAppointmentForPatientAppointmentUsecase.execute({idPatient: req.body.userInfo.idPatient, status: req.query.status, idFisioterapist: req.body.userInfo.idFisioterapist});
         res.status(200).send(getDate)
+      } catch (error) {
+        res.status(500).send({
+          messages: constantsConfig.STATUS.MESSAGES.STATUS500,
+        })
+      }
+    }
+
+    async getAppointmentById(req: express.Request, res: express.Response){
+      try {
+        const getAppointment = await getAppointmentByIdAppointmentUsecase.execute({idAppointment: Number(req.params.idAppointment)});
+        const relation = appointmentService.checkRelationAppointmentUser(req.body.userInfo.idFisioterapist, getAppointment!.patients_fisioterapists!.idFisioterapist, req.body.userInfo.idPatient, getAppointment!.patients_fisioterapists!.idPatient)
+        if(relation){
+          res.status(200).send(getAppointment)
+        } else {
+          res.status(401).send({
+            messages: constantsConfig.STATUS.MESSAGES.STATUS401,
+          })
+        }
       } catch (error) {
         res.status(500).send({
           messages: constantsConfig.STATUS.MESSAGES.STATUS500,
