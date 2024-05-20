@@ -1,0 +1,14 @@
+import { IsInt, IsString, Min } from 'class-validator';
+
+export class FiltersPaginationDto {
+  @IsInt()
+  @Min(0)
+  pageIndex: number;
+
+  @IsInt()
+  @Min(0)
+  pageSize: number;
+
+  @IsString()
+  filter?: string;
+}
