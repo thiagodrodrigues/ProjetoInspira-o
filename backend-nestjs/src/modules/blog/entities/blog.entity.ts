@@ -16,8 +16,14 @@ export class BlogEntity {
   @ApiProperty({
     description: 'Título da matéria',
   })
-  @Column()
+  @Column({ unique: true })
   title: string;
+
+  @ApiProperty({
+    description: 'Título da matéria para URL',
+  })
+  @Column({ unique: true })
+  titleUrl: string;
 
   @ApiProperty({
     description: 'Conteúdo da matéria',
