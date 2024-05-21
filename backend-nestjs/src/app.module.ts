@@ -18,6 +18,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
 import { appointmentsProviders } from './modules/appointment/appointment.providers';
 import { ContactModule } from './modules/contact/contact.module';
 import { BlogModule } from './modules/blog/blog.module';
+import { ActivitiesModule } from './modules/activities/activities.module';
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
 });
@@ -35,6 +36,7 @@ const envModule = ConfigModule.forRoot({
     AppointmentModule,
     ContactModule,
     BlogModule,
+    ActivitiesModule,
   ],
   controllers: [AppController],
   providers: [

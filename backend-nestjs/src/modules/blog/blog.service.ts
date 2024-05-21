@@ -6,7 +6,6 @@ import { BlogEntity } from './entities/blog.entity';
 import { BlogUtils } from './blog.utils';
 import { FiltersPaginationDto } from 'src/shared/dto/filters-pagination.dto';
 import { BLOG_ERRORS } from 'src/shared/helpers/errors/blog-errors.helpers';
-import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Injectable()
 export class BlogService {
