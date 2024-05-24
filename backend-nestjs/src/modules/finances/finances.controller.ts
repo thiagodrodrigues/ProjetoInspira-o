@@ -157,7 +157,7 @@ export class FinancesController {
   async update(
     @Body() updateFinanceDto: UpdateFinanceDto,
     @Param('id') id: string
-  ): Promise<FinanceEntity> {
+  ) {
     return this.financesService.update(id, updateFinanceDto);
   }
 

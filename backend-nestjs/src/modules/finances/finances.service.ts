@@ -55,7 +55,11 @@ export class FinancesService {
         const field_saved = await this.variableFieldRepository.save(field_create);
       }
       if(createFinanceDto.status == STATUS_TRANSACTION.PAY){
-        foundCash.balance = foundCash.balance + createFinanceDto.value;
+        if(createFinanceDto.financeType == TYPE_FINCANCES.REVENUE){
+          foundCash.balance = foundCash.balance + createFinanceDto.value;
+        } else if(createFinanceDto.financeType == TYPE_FINCANCES.EXPENSES){
+          foundCash.balance = foundCash.balance - createFinanceDto.value;
+        }
         const finances_create = this.financesRepository.create(createFinanceDto);
         const finances_saved = await this.financesRepository.save(finances_create);
         const cash_saved = await this.cashRepository.save(foundCash);
@@ -166,11 +170,58 @@ export class FinancesService {
       if (!foundFinance) {
         throw new BadRequestException(FINANCES_ERRORS.financeNotExixts);
       }
-      return this.financesRepository.save({
-        ...foundFinance,
-        ...updateFinanceDto,
+      const foundCash: CashEntity | null = await this.cashRepository.findOne({
+        where: {
+          id: updateFinanceDto.cash.id
+        },
       });
-    } catch (e) {
+      if (!foundCash) {
+        throw new BadRequestException(FINANCES_ERRORS.cashNotExixts);
+      }
+      if(updateFinanceDto.financeCategory == TYPE_FINCANCES.OTHER){
+        const field_create = this.variableFieldRepository.create({
+          field: updateFinanceDto.financeType,
+          value: updateFinanceDto.financeCategoryValue
+        });
+        const field_saved = await this.variableFieldRepository.save(field_create);
+      }
+      if(updateFinanceDto.transaction == TYPE_FINCANCES.OTHER){
+        const field_create = this.variableFieldRepository.create({
+          field: TYPE_FINCANCES.TRANSACTION,
+          value: updateFinanceDto.transactionValue
+        });
+        const field_saved = await this.variableFieldRepository.save(field_create);
+      }
+      if(updateFinanceDto.status == TYPE_FINCANCES.OTHER){
+        const field_create = this.variableFieldRepository.create({
+          field: TYPE_FINCANCES.STATUS,
+          value: updateFinanceDto.statusValue
+        });
+        const field_saved = await this.variableFieldRepository.save(field_create);
+      }
+      if(updateFinanceDto.status == STATUS_TRANSACTION.PAY){
+        if(updateFinanceDto.financeType == TYPE_FINCANCES.REVENUE){
+          foundCash.balance = foundCash.balance + updateFinanceDto.value;
+        } else if(updateFinanceDto.financeType == TYPE_FINCANCES.EXPENSES){
+          foundCash.balance = foundCash.balance - updateFinanceDto.value;
+        }
+        const finances_create = this.financesRepository.create(updateFinanceDto);
+        const finances_saved = await this.financesRepository.save(finances_create);
+        const cash_saved = await this.cashRepository.save(foundCash);
+        return {
+          finances: finances_saved,
+          cash: cash_saved
+        }
+      } else {
+        const finances_create = this.financesRepository.create(updateFinanceDto);
+        const finances_saved = await this.financesRepository.save(finances_create);
+        const cash_saved = await this.cashRepository.save(foundCash);
+        return {
+          finances: finances_saved,
+          cash: cash_saved
+        }
+      }
+    }  catch (e) {
       this.financesUtils.returnErrorContactCreate(e);
     }
   }
