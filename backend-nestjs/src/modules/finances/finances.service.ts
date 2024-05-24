@@ -81,8 +81,16 @@ export class FinancesService {
     }
   }
 
-  async findAll(filtersDTO: FiltersPaginationDto): Promise<any> {
+  async findAll(filtersDTO: FiltersPaginationDto, idCash: string): Promise<any> {
     try {
+      const foundCash: CashEntity | null = await this.cashRepository.findOne({
+        where: {
+          id: idCash
+        },
+      });
+      if (!foundCash) {
+        throw new BadRequestException(FINANCES_ERRORS.cashNotExixts);
+      }
       const { pageSize, pageIndex } = filtersDTO;
       let { filter, startDate, endDate } = filtersDTO;
 
@@ -90,29 +98,47 @@ export class FinancesService {
         filter = '';
       }
       if (!startDate) {
-        startDate = `${dayjs().year()}-${dayjs().month()+1}-01`;
+        let nowDate = dayjs().format('YYYY-MM-DD')
+        if(Number(nowDate.split('-')[2])<16){
+          nowDate = dayjs(nowDate).subtract(1, 'month').format('YYYY-MM-DD')
+          startDate = `${nowDate.split('-')[0]}-${nowDate.split('-')[1]}-01`;
+        } else {
+          startDate = `${nowDate.split('-')[0]}-${nowDate.split('-')[1]}-01`;
+        }
       }
       if (!endDate) {
-        endDate = dayjs(startDate).add(1, 'month').format('YYYY-MM-DD');
+        endDate = dayjs(startDate).add(2, 'month').format('YYYY-MM-DD');
       }
-      const  [financesFiltered, total] =
+      const  financesFiltered =
         await this.financesRepository.find({
           where: [
           {
             financeDate: Between(new Date(startDate), new Date(endDate)),
-            financeType: filter
+            financeType: filter,
+            cash: {
+              id: idCash
+            }
           },
           {
             financeDate: Between(new Date(startDate), new Date(endDate)),
-            financeCategory: filter
+            financeCategory: filter,
+            cash: {
+              id: idCash
+            }
           },
           {
             financeDate: Between(new Date(startDate), new Date(endDate)),
-            financeDescription: filter
+            financeDescription: filter,
+            cash: {
+              id: idCash
+            }
           },
           {
             financeDate: Between(new Date(startDate), new Date(endDate)),
-            status: filter
+            status: filter,
+            cash: {
+              id: idCash
+            }
           },
         ],
           order: {
@@ -121,7 +147,18 @@ export class FinancesService {
           skip: pageIndex * pageSize || 0,
           take: pageSize || 100,
         });
-      return { total, financesFiltered };
+        for(let i=0; i<financesFiltered.length; i++){
+          if(dayjs(financesFiltered[i].financeDate).isBefore(dayjs())){
+            await this.financesRepository.save({
+              ...financesFiltered[i],
+              status: STATUS_TRANSACTION.LATE
+            })
+          }
+        }
+      return {
+        finances: financesFiltered,
+        cash: foundCash
+      };
     } catch (e) {
       return this.financesUtils.returnErrorContactCreate(e);
     }

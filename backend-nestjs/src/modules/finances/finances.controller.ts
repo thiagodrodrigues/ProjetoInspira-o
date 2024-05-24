@@ -53,12 +53,14 @@ export class FinancesController {
     description: 'Aconteceu um Imprevisto',
     type: InternalServerErrorException,
   })
+  @ApiQuery({ name: 'idCash', required: true, type: String })
   @ApiQuery({ name: 'startDate', required: false, type: String })
   @ApiQuery({ name: 'endDate', required: false, type: String })
   @ApiQuery({ name: 'filter', required: false, type: String })
   @ApiQuery({ name: 'pageSize', required: false, type: Number })
   @ApiQuery({ name: 'pageIndex', required: false, type: Number })
   async getAllFinancesOwner(
+    @Param('idCash') idCash: string,
     @Query('startDate') startDate?: string,
     @Query('endDate') endDate?: string,
     @Query('filter') filter?: string,
@@ -71,7 +73,7 @@ export class FinancesController {
       filter: filter,
       pageSize: Number(pageSize),
       pageIndex: Number(pageIndex),
-    });
+    }, idCash);
   }
 
   @ApiBearerAuth()
