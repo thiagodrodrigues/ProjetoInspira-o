@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { PhysiotherapistsEntity } from './entities/physiotherapists.entity';
 import { PhysiotherapistsUtils } from './physiotherapists.utils';
@@ -55,6 +55,29 @@ export class PhysiotherapistsService {
       return foundUser
     } catch (e) {
       this.physiotherapistsUtils.returnErrorPhysiotherapistsUpdate(e);
+    }
+  }
+
+  async create(updatePhysiotherapistsDto: UpdatePhysiotherapistsDto) {
+    try {
+      const physioterapist_create = this.physiotherapistsRepository.create(updatePhysiotherapistsDto);
+      const physioterapist_saved = await this.physiotherapistsRepository.save(physioterapist_create);
+      return physioterapist_saved
+    } catch (e) {
+      this.physiotherapistsUtils.returnErrorPhysiotherapistsUpdate(e);
+    }
+  }
+
+  async remove(id: string) {
+    try {
+      const physiotherapistFound = await this.physiotherapistsRepository.findOneBy({ id });
+      if (!physiotherapistFound) {
+        throw new NotFoundException(USERS_ERRORS.userNotExists);
+      }
+      await this.physiotherapistsRepository.softRemove(physiotherapistFound);
+      return;
+    } catch (e) {
+      return this.physiotherapistsUtils.returnErrorPhysiotherapistsUpdate(e);
     }
   }
 }

@@ -15,7 +15,6 @@ export class BlogService {
     private blogUtils: BlogUtils,
   ) {}
 
-
   async create(createBlogDto: CreateBlogDto) {
     try {
       createBlogDto.titleUrl = createBlogDto.title.replaceAll(" ", "-").toLowerCase().replaceAll(/[^\w\s]/gi, '')

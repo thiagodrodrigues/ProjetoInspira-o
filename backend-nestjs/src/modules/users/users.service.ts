@@ -98,6 +98,24 @@ export class UsersService {
     }
   }
 
+  async findUser(id: string): Promise<UsersEntity> {
+    try {
+      const foundUser: UsersEntity | null = await this.usersRepository.findOne({
+        relations: ['admin', 'physiotherapist', 'patient'],
+        where: {
+          id: id,
+        },
+      });
+      if (!foundUser) {
+        throw new BadRequestException(USERS_ERRORS.userNotExists);
+      }
+      foundUser.password = undefined
+      return foundUser
+    } catch (e) {
+      this.usersUtil.returnErrorSingIn(e);
+    }
+  }
+
   async userProfile(decoded: any): Promise<UsersEntity> {
     try {
       if(typeof decoded == `string`){
@@ -199,7 +217,7 @@ export class UsersService {
       } else if (foundUser.user_type == TYPE_USER.admin) {
         if(updateUserDto.admin){
           const updateAdmin = {
-            crefito: updateUserDto.admin.permission || undefined,
+            permission: updateUserDto.admin.permission || undefined,
             users: foundUser,
           }
           updateUser.admin = await this.adminsService.updateAdmin(foundUser, updateAdmin)
@@ -247,6 +265,86 @@ export class UsersService {
       return { message: USER_SUCCESSFUL.userDeletedWithSuccessful };
     } catch (e) {
       return this.usersUtil.returnErrorDisableUser(e);
+    }
+  }
+  
+  async updateOwner(idUser: string, owner: boolean) {
+    try {
+      let foundUser: UsersEntity | null = await this.findUser(idUser);
+      if (!foundUser) {
+        throw new BadRequestException(USERS_ERRORS.userNotExists);
+      }
+      foundUser.owner = owner
+      const decoded = {id: idUser}
+      await this.updateProfile(decoded, foundUser)
+      foundUser.password = undefined
+      return foundUser;
+    } catch (e) {
+      this.usersUtil.returnErrorCreate(e);
+    }
+  }
+
+  async updatePermissionAdmin(idUser: string, permission: boolean) {
+    try {
+      let foundUser: UsersEntity | null = await this.findUser(idUser);
+      if (!foundUser) {
+        throw new BadRequestException(USERS_ERRORS.userNotExists);
+      }
+      if(permission){
+        const admin = {
+          permission: 'Administrador',
+          users: foundUser
+        };
+        const adminCreated = await this.adminsService.createAdmin(admin)
+        const decoded = {id: idUser}
+        foundUser.admin.id = adminCreated.id
+        foundUser.admin.permission = adminCreated.permission
+        foundUser.user_type = TYPE_USER.admin
+        foundUser.admin.users = foundUser
+        await this.updateProfile(decoded, foundUser)
+      } else {
+        await this.adminsService.remove(foundUser.admin.id);
+        foundUser.user_type = TYPE_USER.patient
+        foundUser.admin = undefined
+        const decoded = {id: idUser}
+        await this.updateProfile(decoded, foundUser)
+      }
+      foundUser.password = undefined
+      return foundUser;
+    } catch (e) {
+      this.usersUtil.returnErrorCreate(e);
+    }
+  }
+
+  async updatePhysiotherapist(idUser: string, permission: boolean) {
+    try {
+      let foundUser: UsersEntity | null = await this.findUser(idUser);
+      if (!foundUser) {
+        throw new BadRequestException(USERS_ERRORS.userNotExists);
+      }
+      if(permission){
+        const physiotherapist = {
+          crefito: 'CREFITO-000000',
+          users: foundUser
+        };
+        const physioterapistCreated = await this.physiotherapistsService.create(physiotherapist);
+        const decoded = {id: idUser}
+        foundUser.physiotherapist.id = physioterapistCreated.id
+        foundUser.physiotherapist.crefito = physioterapistCreated.crefito
+        foundUser.user_type = TYPE_USER.physiotherapist
+        foundUser.admin.users = foundUser
+        await this.updateProfile(decoded, foundUser)
+      } else {
+        await this.physiotherapistsService.remove(foundUser.physiotherapist.id);
+        foundUser.user_type = TYPE_USER.patient
+        foundUser.physiotherapist = undefined
+        const decoded = {id: idUser}
+        await this.updateProfile(decoded, foundUser)
+      }
+      foundUser.password = undefined
+      return foundUser;
+    } catch (e) {
+      this.usersUtil.returnErrorCreate(e);
     }
   }
 }

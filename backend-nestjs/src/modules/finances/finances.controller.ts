@@ -2,12 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadReques
 import { FinancesService } from './finances.service';
 import { CreateFinanceDto } from './dto/create-finance.dto';
 import { UpdateFinanceDto } from './dto/update-finance.dto';
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OwnerUserGuard } from '../users/owner.guard';
 import { FinanceEntity } from './entities/finance.entity';
 import { VariableFieldEntity } from './entities/variableField.entity';
 
 @Controller('finances')
+@ApiTags('Finances')
 export class FinancesController {
   constructor(private readonly financesService: FinancesService) {}
 
