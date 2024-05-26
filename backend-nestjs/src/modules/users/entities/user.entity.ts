@@ -29,7 +29,7 @@ export class UsersEntity {
     description: 'E-mail',
     example: 'fulanodetalss@email.com',
   })
-  @Column()
+  @Column({ unique: true})
   email: string;
 
   @ApiProperty({

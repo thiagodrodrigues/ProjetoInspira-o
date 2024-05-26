@@ -10,6 +10,8 @@ import * as dayjs from 'dayjs';
 import { CalendarsEntity } from './modules/calendar/entities/calendar.entity';
 import { AVAILABLE_CALENDAR } from './modules/calendar/calendar.enum';
 import { AppointmentEntity } from './modules/appointment/entities/appointment.entity';
+import { VariableFieldEntity } from './modules/finances/entities/variableField.entity';
+import { CashEntity } from './modules/finances/entities/cash.entity';
 
 
 let pass = "123456";
@@ -38,6 +40,12 @@ export class AppService {
 
     @Inject('APPOINTMENT_REPOSITORY')
     private appointmentRepository: Repository<AppointmentEntity>,
+
+    @Inject('VARIABLE_FIELD_REPOSITORY')
+    private variableFieldRepository: Repository<VariableFieldEntity>,
+
+    @Inject('CASH_REPOSITORY')
+    private cashRepository: Repository<CashEntity>,
   ) {}
 
   async seed() {
@@ -52,6 +60,8 @@ export class AppService {
       .getRawMany();
       let dbCalendars = await this.calendarsRepository.find();
       let dbAppointment = await this.appointmentRepository.find();
+      let dbVariableFields = await this.variableFieldRepository.find();
+      let dbCash = await this.cashRepository.find();
 
       if (!dbUsers.length) {
         dbUsers = await this.seedUsers();
@@ -86,6 +96,16 @@ export class AppService {
       if (!dbAppointment.length) {
         dbAppointment = await this.seedAppointments();
         this.logger.log('Appointments seeded successfully');
+      }
+
+      if (!dbVariableFields.length) {
+        dbVariableFields = await this.seedVariableFields();
+        this.logger.log('VariableFields seeded successfully');
+      }
+
+      if (!dbCash.length) {
+        dbCash = await this.seedCash();
+        this.logger.log('Cash seeded successfully');
       }
     } catch (e) {
       console.log(e)
@@ -255,5 +275,63 @@ export class AppService {
       appointmentsToCreate.push(appointment);
     }
     return await this.appointmentRepository.save(appointmentsToCreate);
+  }
+
+  private async seedVariableFields(): Promise<VariableFieldEntity[]> {
+    const variableFieldsToCreate: VariableFieldEntity[] = [];
+    let variableField = {
+      id: faker.string.uuid(),
+      field: 'Status',
+      value: 'A vencer',
+    };
+    variableFieldsToCreate.push(variableField);
+    variableField = {
+      id: faker.string.uuid(),
+      field: 'Status',
+      value: 'Paga',
+    };
+    variableFieldsToCreate.push(variableField);
+    variableField = {
+      id: faker.string.uuid(),
+      field: 'Status',
+      value: 'Atrasada',
+    };
+    variableFieldsToCreate.push(variableField);
+    variableField = {
+      id: faker.string.uuid(),
+      field: 'Status',
+      value: 'Outros',
+    };
+    variableFieldsToCreate.push(variableField);
+    variableField = {
+      id: faker.string.uuid(),
+      field: 'Receita',
+      value: 'Outros',
+    };
+    variableFieldsToCreate.push(variableField);
+    variableField = {
+      id: faker.string.uuid(),
+      field: 'Despesa',
+      value: 'Outros',
+    };
+    variableFieldsToCreate.push(variableField);
+    variableField = {
+      id: faker.string.uuid(),
+      field: 'Transação',
+      value: 'Outros',
+    };
+    variableFieldsToCreate.push(variableField);
+    return await this.variableFieldRepository.save(variableFieldsToCreate);
+  }
+
+  private async seedCash(): Promise<CashEntity[]> {
+    const cashToCreate: CashEntity[] = [];
+    let cashField = {
+      id: faker.string.uuid(),
+      wallet: 'Principal',
+      balance: 0,
+    };
+    cashToCreate.push(cashField);
+    return await this.cashRepository.save(cashToCreate);
   }
 }

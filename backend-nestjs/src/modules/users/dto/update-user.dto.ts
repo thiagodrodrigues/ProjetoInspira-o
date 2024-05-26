@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength, ValidateNested } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsString, MinLength, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UpdatePatientDto } from 'src/modules/patients/dto/update-patients.dto';
 import { UpdatePhysiotherapistsDto } from 'src/modules/physiotherapists/dto/update-physiotherapists.dto';
@@ -52,5 +52,12 @@ export class UpdateUserDto {
   @ValidateNested()
   @IsNotEmpty()
   physiotherapist?: UpdatePhysiotherapistsDto;
+
+  @ApiProperty({
+    description: 'Proprietário',
+    example: true,
+  })
+  @IsBoolean()
+  owner?: boolean;
 
 }

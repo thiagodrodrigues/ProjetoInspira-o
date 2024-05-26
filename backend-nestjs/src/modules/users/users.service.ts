@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { UsersEntity } from './entities/user.entity';
 import { UsersUtils } from './users.utils';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -14,6 +14,7 @@ import { AdminsService } from '../admins/admins.service';
 import { PhysiotherapistsService } from '../physiotherapists/physiotherapists.service';
 import { faker } from '@faker-js/faker';
 import { USER_SUCCESSFUL } from 'src/shared/helpers/successful/users-successfuls.helpers';
+import { FiltersPaginationDto } from 'src/shared/dto/filters-pagination.dto';
 
 @Injectable()
 export class UsersService {
@@ -98,6 +99,24 @@ export class UsersService {
     }
   }
 
+  async findUser(id: string): Promise<UsersEntity> {
+    try {
+      const foundUser: UsersEntity | null = await this.usersRepository.findOne({
+        relations: ['admin', 'physiotherapist', 'patient'],
+        where: {
+          id: id,
+        },
+      });
+      if (!foundUser) {
+        throw new BadRequestException(USERS_ERRORS.userNotExists);
+      }
+      foundUser.password = undefined
+      return foundUser
+    } catch (e) {
+      this.usersUtil.returnErrorSingIn(e);
+    }
+  }
+
   async userProfile(decoded: any): Promise<UsersEntity> {
     try {
       if(typeof decoded == `string`){
@@ -170,6 +189,7 @@ export class UsersService {
         patient: null,
         physiotherapist: null,
         admin: null,
+        owner: Boolean(updateUserDto.owner)
       }
       if (foundUser.user_type == TYPE_USER.patient) {
         if(updateUserDto.patient){
@@ -199,7 +219,7 @@ export class UsersService {
       } else if (foundUser.user_type == TYPE_USER.admin) {
         if(updateUserDto.admin){
           const updateAdmin = {
-            crefito: updateUserDto.admin.permission || undefined,
+            permission: updateUserDto.admin.permission || undefined,
             users: foundUser,
           }
           updateUser.admin = await this.adminsService.updateAdmin(foundUser, updateAdmin)
@@ -247,6 +267,191 @@ export class UsersService {
       return { message: USER_SUCCESSFUL.userDeletedWithSuccessful };
     } catch (e) {
       return this.usersUtil.returnErrorDisableUser(e);
+    }
+  }
+  
+  async updateOwner(idUser: string, owner: string) {
+    try {
+      let foundUser: UsersEntity | null = await this.findUser(idUser);
+      if (!foundUser) {
+        throw new BadRequestException(USERS_ERRORS.userNotExists);
+      }
+      if(owner == 'true'){
+        foundUser.owner = true
+      } else if(owner == 'false'){
+        foundUser.owner = false
+      }
+      const decoded = {id: idUser}
+      const updated_user = await this.updateProfile(decoded, foundUser)
+      foundUser.password = undefined
+      return updated_user;
+    } catch (e) {
+      this.usersUtil.returnErrorCreate(e);
+    }
+  }
+
+  async updatePermissionAdmin(idUser: string, permission: string) {
+    try {
+      let foundUser: UsersEntity | null = await this.findUser(idUser);
+      if (!foundUser) {
+        throw new BadRequestException(USERS_ERRORS.userNotExists);
+      }
+      if(permission == 'true'){
+        const checkExists = await this.adminsService.findOne(idUser)
+        if(checkExists){
+          foundUser.admin = checkExists
+          foundUser.user_type = TYPE_USER.admin
+          await this.update(idUser, foundUser)
+          return foundUser
+        }
+        const admin = {
+          permission: TYPE_USER.admin,
+          users: foundUser
+        };
+        const adminCreated = await this.adminsService.createAdmin(admin)
+        foundUser.admin = adminCreated
+        foundUser.user_type = TYPE_USER.admin
+        await this.update(idUser, foundUser)
+      } else {
+        foundUser.user_type = TYPE_USER.patient
+        foundUser.admin = null
+        await this.update(idUser, foundUser)
+      }
+      foundUser.password = undefined
+      return foundUser;
+    } catch (e) {
+      this.usersUtil.returnErrorCreate(e);
+    }
+  }
+
+  async updatePhysiotherapist(idUser: string, permission: String) {
+    try {
+      let foundUser: UsersEntity | null = await this.findUser(idUser);
+      if (!foundUser) {
+        throw new BadRequestException(USERS_ERRORS.userNotExists);
+      }
+      if(permission == 'true'){
+        const checkExists = await this.physiotherapistsService.findOne(idUser)
+        if(checkExists){
+          foundUser.physiotherapist = checkExists
+          foundUser.user_type = TYPE_USER.physiotherapist
+          await this.update(idUser, foundUser)
+          return foundUser
+        }
+        const physiotherapist = {
+          crefito: 'CREFITO-000000',
+          users: foundUser
+        };
+        const physioterapistCreated = await this.physiotherapistsService.create(physiotherapist);
+        foundUser.physiotherapist = physioterapistCreated
+        foundUser.user_type = TYPE_USER.physiotherapist
+        await this.update(idUser, foundUser)
+      } else {
+        foundUser.user_type = TYPE_USER.patient
+        foundUser.physiotherapist = null
+        await this.update(idUser, foundUser)
+      }
+      foundUser.password = undefined
+      return foundUser;
+    } catch (e) {
+      this.usersUtil.returnErrorCreate(e);
+    }
+  }
+
+  async getAll(filtersDTO: FiltersPaginationDto, decoded?: any): Promise<any> {
+    try {
+      if(typeof decoded == `string`){
+        throw new UnauthorizedException(USERS_ERRORS.userUnauthorized)
+      }
+      const { pageSize, pageIndex } = filtersDTO;
+      let { filter } = filtersDTO;
+
+      if (!filter) {
+        filter = '';
+      }
+      if(decoded.user_type == TYPE_USER.admin){
+        const [userFiltered, total] = await this.usersRepository.createQueryBuilder('users')
+          .leftJoinAndSelect('users.admin', 'admin')
+          .select([
+            'users.id',
+            'users.name',
+            'users.email',
+            'users.owner',
+            'users.user_type',
+            'users.created_at',
+            'users.updated_at',
+            'users.admin',  
+            'admin.id',
+          ])
+          .where('users.name LIKE :filter OR users.email LIKE :filter', { filter: `%${filter}%` })
+          .orderBy('CASE WHEN admin.id IS NOT NULL THEN 1 ELSE 0 END', 'DESC')
+          .addOrderBy('CASE WHEN users.owner = true THEN 1 ELSE 0 END', 'DESC')
+          .addOrderBy('users.name', 'ASC')
+          .getManyAndCount();
+        return { total, userFiltered };
+      } else {
+        const  [userFiltered, total] =
+          await this.usersRepository.findAndCount({
+            where: [
+              {
+                name: Like(`%${filter}%`),
+              },
+              {
+                email: Like(`%${filter}%`),
+              },
+            ],
+            order: {
+              owner: 'DESC',
+              name: 'ASC'
+            },
+            skip: pageIndex * pageSize || 0,
+            take: pageSize || 100,
+          });
+        return { total, userFiltered };
+
+      }
+    } catch (e) {
+      return this.usersUtil.returnErrorCreate(e);
+    }
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    try {
+      const foundUser: UsersEntity | null = await this.usersRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+      if (!foundUser) {
+        throw new BadRequestException(USERS_ERRORS.userNotExists);
+      }
+      if(updateUserDto.admin == null){
+        return this.usersRepository.save({
+          ...foundUser,
+          ...updateUserDto,
+          admin: null
+        });
+      } 
+      if(updateUserDto.patient == null){
+        return this.usersRepository.save({
+          ...foundUser,
+          ...updateUserDto,
+          patient: null
+        });
+      } 
+      if(updateUserDto.physiotherapist == null){
+        return this.usersRepository.save({
+          ...foundUser,
+          ...updateUserDto,
+          physiotherapist: null
+        });
+      } 
+      return this.usersRepository.save({
+        ...foundUser,
+        ...updateUserDto,
+      });
+    } catch (e) {
+      this.usersUtil.returnErrorCreate(e);
     }
   }
 }

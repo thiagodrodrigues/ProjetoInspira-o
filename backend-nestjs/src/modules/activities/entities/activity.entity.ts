@@ -8,43 +8,37 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'blog' })
-export class BlogEntity {
+@Entity({ name: 'activities' })
+export class ActivityEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
   @ApiProperty({
-    description: 'Título da matéria',
+    description: 'Título da atividade',
   })
   @Column({ unique: true })
   title: string;
 
   @ApiProperty({
-    description: 'Título da matéria para URL',
+    description: 'Título da atividade para URL',
   })
   @Column({ unique: true })
   titleUrl: string;
 
   @ApiProperty({
-    description: 'Conteúdo da matéria',
+    description: 'Descrição da atividade',
   })
   @Column({type: 'longtext'})
   content: string;
 
   @ApiProperty({
-    description: 'Autor da Matéria',
-  })
-  @Column()
-  autor: string;
-
-  @ApiProperty({
-    description: 'Mídia da matéria',
+    description: 'Vídeo da atividade no YouTube',
   })
   @Column()
   url?: string;
 
   @ApiProperty({
-    description: 'Matéria visível para o usuário.',
+    description: 'Atividade visível para o usuário.',
   })
   @Column({ default: true })
   status: boolean;

@@ -37,7 +37,7 @@ export class ContactService {
       let total = undefined
       if(read == 'true'){
         [patientsFiltered, total] =
-        await this.contactRepository.find({
+        await this.contactRepository.findAndCount({
           where: [
           {
             name: Like(`%${filter}%`),
@@ -60,7 +60,7 @@ export class ContactService {
         });
       } else if(read == 'false'){
         [patientsFiltered, total] =
-        await this.contactRepository.find({
+        await this.contactRepository.findAndCount({
           where: [
           {
             name: Like(`%${filter}%`),

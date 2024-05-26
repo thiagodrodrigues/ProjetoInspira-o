@@ -1,9 +1,9 @@
-import { IsBoolean, IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateBlogDto {
+export class CreateActivityDto {
   @ApiProperty({
-    description: 'Título do Blog',
+    description: 'Título da Atividade',
     example: 'Novas tecnologias no tratamento fisioterápico.',
   })
   @IsString()
@@ -24,14 +24,6 @@ export class CreateBlogDto {
   @IsString()
   @IsNotEmpty()
   content: string;
-
-  @ApiProperty({
-    description: 'Autor da matéria',
-    example: "Fisioterapeuta Ana Beatriz Castela Dutra",
-  })
-  @IsString()
-  @IsNotEmpty()
-  autor: string;
 
   @ApiProperty({
     description: 'url de Destino da imagem',

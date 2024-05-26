@@ -1,24 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, InternalServerErrorException, UseGuards, Query, UnauthorizedException, ForbiddenException, Put } from '@nestjs/common';
-import { BlogService } from './blog.service';
-import { CreateBlogDto } from './dto/create-blog.dto';
-import { UpdateBlogDto } from './dto/update-blog.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadRequestException, InternalServerErrorException, UnauthorizedException, Query, ForbiddenException, Put } from '@nestjs/common';
+import { ActivitiesService } from './activities.service';
+import { CreateActivityDto } from './dto/create-activity.dto';
+import { UpdateActivityDto } from './dto/update-activity.dto';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OwnerUserGuard } from '../users/owner.guard';
-import { BlogEntity } from './entities/blog.entity';
+import { ActivityEntity } from './entities/activity.entity';
 
-@Controller('blog')
-@ApiTags('Blog')
-export class BlogController {
-  constructor(private readonly blogService: BlogService) {}
+@Controller('activities')
+@ApiTags('Activities')
+export class ActivitiesController {
+  constructor(private readonly activitiesService: ActivitiesService) {}
 
   @ApiBearerAuth()
   @UseGuards(OwnerUserGuard)
-  @ApiOperation({ summary: 'OWNER - Criar nova matéria.' })
+  @ApiOperation({ summary: 'OWNER - Criar nova atividade.' })
   @Post()
   @ApiResponse({
     status: 201,
     description: 'Nova matéria criada.',
-    type: CreateBlogDto,
+    type: CreateActivityDto,
   })
   @ApiResponse({
     status: 404,
@@ -30,18 +30,18 @@ export class BlogController {
     description: 'Aconteceu um Imprevisto',
     type: InternalServerErrorException,
   })  
-  create(@Body() createBlogDto: CreateBlogDto) {
-    return this.blogService.create(createBlogDto);
+  create(@Body() createActivityDto: CreateActivityDto) {
+    return this.activitiesService.create(createActivityDto);
   }
 
   @ApiBearerAuth()
   @UseGuards(OwnerUserGuard)
-  @ApiOperation({ summary: 'Owner - Listar todas as matérias do Blog' })
+  @ApiOperation({ summary: 'Owner - Listar todas as atividades' })
   @Get('owner')
   @ApiResponse({
     status: 200,
-    description: 'Lista todas as matérias do Blog',
-    type: [BlogEntity],
+    description: 'Lista todas as atividades',
+    type: [ActivityEntity],
   })
   @ApiResponse({
     status: 401,
@@ -56,24 +56,24 @@ export class BlogController {
   @ApiQuery({ name: 'filter', required: false, type: String })
   @ApiQuery({ name: 'pageSize', required: false, type: Number })
   @ApiQuery({ name: 'pageIndex', required: false, type: Number })
-  async getAllBlogOwner(
+  async getAllActivitiesOwner(
     @Query('filter') filter?: string,
     @Query('pageSize') pageSize?: string,
     @Query('pageIndex') pageIndex?: string,
-  ): Promise<BlogEntity[]> {
-    return this.blogService.findAll({
+  ): Promise<ActivityEntity[]> {
+    return this.activitiesService.findAll({
       filter: filter,
       pageSize: Number(pageSize),
       pageIndex: Number(pageIndex),
     });
   }
 
-  @ApiOperation({ summary: 'GERAL - Listar todas as matérias Visíveis do Blog' })
+  @ApiOperation({ summary: 'GERAL - Listar todas as atividaes visíveis' })
   @Get()
   @ApiResponse({
     status: 200,
-    description: 'Lista todas as matérias do Blog',
-    type: [BlogEntity],
+    description: 'Lista todas as atividades visíveis',
+    type: [ActivityEntity],
   })
   @ApiResponse({
     status: 500,
@@ -83,12 +83,12 @@ export class BlogController {
   @ApiQuery({ name: 'filter', required: false, type: String })
   @ApiQuery({ name: 'pageSize', required: false, type: Number })
   @ApiQuery({ name: 'pageIndex', required: false, type: Number })
-  async getAllBlogUser(
+  async getAllActivitiesUser(
     @Query('filter') filter?: string,
     @Query('pageSize') pageSize?: string,
     @Query('pageIndex') pageIndex?: string,
-  ): Promise<BlogEntity[]> {
-    return this.blogService.findAll({
+  ): Promise<ActivityEntity[]> {
+    return this.activitiesService.findAll({
       filter: filter,
       pageSize: Number(pageSize),
       pageIndex: Number(pageIndex),
@@ -101,7 +101,7 @@ export class BlogController {
   @ApiResponse({
     status: 200,
     description: 'Mensagem específica de Contato',
-    type: [BlogEntity],
+    type: [ActivityEntity],
   })
   @ApiResponse({
     status: 401,
@@ -120,14 +120,14 @@ export class BlogController {
   })
   @Get('owner/:titleUrl')
   findOneOwner(@Param('titleUrl') titleUrl: string) {
-    return this.blogService.findOne(titleUrl);
+    return this.activitiesService.findOne(titleUrl);
   }
 
   @ApiOperation({ summary: 'GERAL - Listar conteúdo específico visível geral' })
   @ApiResponse({
     status: 200,
-    description: 'Mensagem específica de Contato',
-    type: [BlogEntity],
+    description: 'Listar conteúdo específico visível geral',
+    type: [ActivityEntity],
   })
   @ApiResponse({
     status: 401,
@@ -146,17 +146,17 @@ export class BlogController {
   })
   @Get(':titleUrl')
   findOneUser(@Param('titleUrl') titleUrl: string) {
-    return this.blogService.findOne(titleUrl, true);
+    return this.activitiesService.findOne(titleUrl, true);
   }
 
   @ApiBearerAuth()
   @UseGuards(OwnerUserGuard)
-  @ApiOperation({ summary: 'OWNER - Atualizar Conteúdo' })
+  @ApiOperation({ summary: 'OWNER - Atualizar Atividade' })
   @Put('owner/:titleUrl')
   @ApiResponse({
     status: 201,
-    description: 'Conteúdo atualizado com sucesso.',
-    type: UpdateBlogDto,
+    description: 'Atividade atualizada com sucesso.',
+    type: UpdateActivityDto,
   })
   @ApiResponse({
     status: 401,
@@ -174,18 +174,18 @@ export class BlogController {
     type: InternalServerErrorException,
   })
   async update(
-    @Body() updateBlogDto: UpdateBlogDto,
+    @Body() updateActivityDto: UpdateActivityDto,
     @Param('titleUrl') titleUrl: string
-  ): Promise<BlogEntity> {
-    return this.blogService.update(titleUrl, updateBlogDto);
+  ): Promise<ActivityEntity> {
+    return this.activitiesService.update(titleUrl, updateActivityDto);
   }
 
   @ApiBearerAuth()
   @UseGuards(OwnerUserGuard)
-  @ApiOperation({ summary: 'OWNER - Excluir um conteúdo' })
+  @ApiOperation({ summary: 'OWNER - Excluir uma atividade' })
   @ApiResponse({
     status: 200,
-    description: 'Mensagem excluída com sucesso.',
+    description: 'Atividade excluída com sucesso.',
   })
   @ApiResponse({
     status: 403,
@@ -199,6 +199,6 @@ export class BlogController {
   })
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.blogService.remove(id);
+    return this.activitiesService.remove(id);
   }
 }

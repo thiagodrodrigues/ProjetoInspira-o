@@ -11,4 +11,10 @@ export class FiltersPaginationDto {
 
   @IsString()
   filter?: string;
+
+  @IsString()
+  startDate?: string;
+
+  @IsString()
+  endDate?: string;
 }

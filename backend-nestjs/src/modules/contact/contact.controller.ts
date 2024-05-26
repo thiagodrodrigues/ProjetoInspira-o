@@ -1,11 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, InternalServerErrorException, UnauthorizedException, UseGuards, Headers, Query, ForbiddenException } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { CreateContactDto } from './dto/create-contact.dto';
-import { UpdateContactDto } from './dto/update-contact.dto';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ContactEntity } from './entities/contact.entity';
-import { PhysiotherapistsUserGuard } from '../physiotherapists/physiotherapists.guard';
-import * as jwt from 'jsonwebtoken';
 import { OwnerUserGuard } from '../users/owner.guard';
 
 @Controller('contact')
