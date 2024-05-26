@@ -6,6 +6,7 @@ import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@ne
 import { OwnerUserGuard } from '../users/owner.guard';
 import { FinanceEntity } from './entities/finance.entity';
 import { VariableFieldEntity } from './entities/variableField.entity';
+import { CreateCashDto } from './dto/create-cash-finance.dto';
 
 @Controller('finances')
 @ApiTags('Finances')
@@ -33,6 +34,29 @@ export class FinancesController {
   })  
   create(@Body() createFinanceDto: CreateFinanceDto) {
     return this.financesService.create(createFinanceDto);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(OwnerUserGuard)
+  @ApiOperation({ summary: 'OWNER - Criar nova conta.' })
+  @Post('cash')
+  @ApiResponse({
+    status: 201,
+    description: 'Nova conta criada.',
+    type: CreateFinanceDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Todos os campos devem ser preenchidos e válidos.',
+    type: BadRequestException,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Aconteceu um Imprevisto',
+    type: InternalServerErrorException,
+  })  
+  createCash(@Body() createCashDto: CreateCashDto) {
+    return this.financesService.createCash(createCashDto);
   }
 
   @ApiBearerAuth()
@@ -129,7 +153,10 @@ export class FinancesController {
     type: InternalServerErrorException,
   })
   @Get('fields')
-  findAllFields(@Param('field') field: string): Promise<VariableFieldEntity[]>  {
+  @ApiQuery({ name: 'field', required: true, type: String })
+  findAllFields(
+    @Query('field') field: string
+  ): Promise<VariableFieldEntity[]>  {
     return this.financesService.findAllFields(field);
   }
 

@@ -17,7 +17,7 @@ export class BlogService {
 
   async create(createBlogDto: CreateBlogDto) {
     try {
-      createBlogDto.titleUrl = createBlogDto.title.replaceAll(" ", "-").toLowerCase().replaceAll(/[^\w\s]/gi, '')
+      createBlogDto.titleUrl = createBlogDto.title.replaceAll(" ", "-").toLowerCase().replaceAll(/[^\w\s-]/gi, '')
       const blog_create = this.blogRepository.create(createBlogDto);
       const blog_saved = await this.blogRepository.save(blog_create);
       return blog_saved

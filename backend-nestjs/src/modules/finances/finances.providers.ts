@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
 import { FinanceEntity } from './entities/finance.entity';
 import { CashEntity } from './entities/cash.entity';
+import { VariableFieldEntity } from './entities/variableField.entity';
 
 export const fincancesProviders = [
   {
@@ -18,7 +19,7 @@ export const fincancesProviders = [
   {
     provide: 'VARIABLE_FIELD_REPOSITORY',
     useFactory: (dataSource: DataSource) =>
-      dataSource.getRepository(CashEntity),
+      dataSource.getRepository(VariableFieldEntity),
     inject: ['DATA_SOURCE'],
   },
 ];

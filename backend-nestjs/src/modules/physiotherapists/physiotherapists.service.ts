@@ -68,6 +68,19 @@ export class PhysiotherapistsService {
     }
   }
 
+  async findOne(id: string) {
+    try {
+      const foundPhysiotherapist: PhysiotherapistsEntity | null = await this.physiotherapistsRepository.findOne({
+        where: {
+          users: {id: id}
+        },
+      });
+      return foundPhysiotherapist
+    } catch (e) {
+      this.physiotherapistsUtils.returnErrorPhysiotherapistsUpdate(e);
+    }
+  }
+
   async remove(id: string) {
     try {
       const physiotherapistFound = await this.physiotherapistsRepository.findOneBy({ id });

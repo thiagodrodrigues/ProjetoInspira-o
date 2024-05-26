@@ -20,6 +20,7 @@ import { ContactModule } from './modules/contact/contact.module';
 import { BlogModule } from './modules/blog/blog.module';
 import { ActivitiesModule } from './modules/activities/activities.module';
 import { FinancesModule } from './modules/finances/finances.module';
+import { fincancesProviders } from './modules/finances/finances.providers';
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
 });
@@ -49,6 +50,7 @@ const envModule = ConfigModule.forRoot({
     ...physiotherapistsProviders,
     ...calendarsProviders,
     ...appointmentsProviders,
+    ...fincancesProviders
   ],
 })
 

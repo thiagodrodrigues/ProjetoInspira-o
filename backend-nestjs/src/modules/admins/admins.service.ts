@@ -14,6 +14,19 @@ export class AdminsService {
     private adminsUtils: AdminsUtils,
   ) {}
 
+  async findOne(id: string) {
+    try {
+      const foundAdmin: AdminsEntity | null = await this.adminsRepository.findOne({
+        where: {
+          users: {id: id}
+        },
+      });
+      return foundAdmin
+    } catch (e) {
+      this.adminsUtils.returnErrorAdminUpdate(e);
+    }
+  }
+
   async updateAdmin(foundUser: UsersEntity, updateAdminsDto: UpdateAdminsDto){
     try {
       const adminFound = await this.adminsRepository.findOne({

@@ -28,7 +28,7 @@ export class CashEntity {
   balance: number;
 
   @OneToMany(() => FinanceEntity, (finance) => finance.cash)
-  finances: FinanceEntity[];
+  finances?: FinanceEntity[];
   
   @CreateDateColumn({ name: 'created_at' })
   created_at?: Date;

@@ -1,7 +1,8 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { CreateAppointmentDto } from './create-appointment.dto';
 import { AVAILABLE_CALENDAR } from 'src/modules/calendar/calendar.enum';
+import { CalendarsEntity } from 'src/modules/calendar/entities/calendar.entity';
 
 export class UpdateAppointmentDto extends PartialType(CreateAppointmentDto) {
   @ApiProperty({
@@ -32,4 +33,11 @@ export class UpdateAppointmentDto extends PartialType(CreateAppointmentDto) {
   })
   @IsString()
   comments?: string;
+
+  @ApiProperty({
+    description: 'Informações do calendário',
+    example: 'Fulano de Tal Souza e Silva',
+  })
+  @ValidateNested()
+  calendar?: CalendarsEntity;
 }
