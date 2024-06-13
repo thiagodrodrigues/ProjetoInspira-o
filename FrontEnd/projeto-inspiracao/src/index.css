@@ -2,5 +2,37 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: roboto, 'sans-serif';
+    font-family: 'lora-medium';
+  }
+  @font-face {
+    font-family: 'helvetica';
+    src: url("fonts/Helvetica.ttc");
+  }
+  @font-face {
+    font-family: 'lora-regular';
+    src: url("fonts/Lora-Regular.ttf");
+  }
+  @font-face {
+    font-family: 'lora-medium';
+    src: url("fonts/Lora-Medium.ttf");
+  }
+  @font-face {
+    font-family: 'lora-medium-italic';
+    src: url("fonts/Lora-MediumItalic.ttf");
+  }
+  @font-face {
+    font-family: 'lora-regular-italic';
+    src: url("fonts/Lora-Italic.ttf");
+  }
+  @font-face {
+    font-family: 'lora-semibold-italic';
+    src: url("fonts/Lora-SemiBoldItalic.ttf");
+  }
+  @font-face {
+    font-family: 'lora-bold-italic';
+    src: url("fonts/Lora-BoldItalic.ttf");
+  }
+  @font-face {
+    font-family: 'lora-semibold';
+    src: url("fonts/Lora-SemiBold.ttf");
   }

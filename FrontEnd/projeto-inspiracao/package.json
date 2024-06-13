@@ -15,7 +15,10 @@
     "axios": "^1.6.4",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
+    "react-background-image": "^2.0.1",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.5",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.21.1",
     "styled-components": "^6.1.6"
   },

@@ -1,14 +1,19 @@
 import {
   createBrowserRouter,
 } from "react-router-dom";
-import Usuarios from "../pages/ListaUsuario";
+import MainPage from "../pages/Home";
+import LoginPage from "../components/Login/index.tsx";
 
 
 const router = createBrowserRouter([
-    {
-        path: "/users",
-        element: <Usuarios decoded={[]} name={""} email={""} photo={""} username={""} age={""} _id={""} />,
-    },
+  {
+      path: "/",
+      element: <MainPage />,
+  },
+  {
+      path: "/login",
+      element: <LoginPage />,
+  },
 ])
 
 export default router

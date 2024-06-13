@@ -1,38 +1,36 @@
-import logo from '../../assets/logo.png'
-import avatar from '../../assets/avatar.png'
-import React, { useState } from 'react'
-import { HeaderStyle, LinkStyle } from './Header.style'
-import { Link, useNavigate } from 'react-router-dom'
+import logo from '../../assets/logoColor-transparente.png'
+import React from 'react'
+import { BackgroundOverlay, HeaderStyle, LinkStyle, LinkStyleTo } from './Header.style'
+import { Link } from 'react-router-dom'
 
 
-const index = () => {
-  const USUARIO = localStorage.getItem('token');
-  console.log(USUARIO === null)
-  const photoUser = localStorage.getItem('photo')
-
-  type HeaderProps = {
-    photo: string
-  }
-
-
-  const navigate = useNavigate()
-  const deslogar = () => {
-    localStorage.setItem('token', ``);
-    localStorage.setItem('_id', ``);
-    setTimeout(() => navigate('/'), 1000)
-  }
-
+const index: React.FC = () => {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+        const offsetTop = element.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth' 
+        });
+    }
+  };
 
   return (
     <>
-      <HeaderStyle className='d-flex justify-content-center align-items-center'>
-            <Link to="/users"><img className="logo" src={avatar} alt="logo" /></Link>
-            <LinkStyle className='links' style={{textDecoration: 'none'}} to="/users">Usuários</LinkStyle>
-            <LinkStyle className='links' style={{textDecoration: 'none' }} to="/cats">API Cats</LinkStyle>
-            <LinkStyle className='links' style={{textDecoration: 'none'}} to="/dogs">API Dogs</LinkStyle>
-            <LinkStyle className='links' style={{textDecoration: 'none'}} to="/clients">Clientes</LinkStyle>
-            <LinkStyle className='links' style={{textDecoration: 'none'}} to="/" onClick={deslogar}>Logout</LinkStyle>
-            <img className="avatar" src={ photoUser? photoUser : avatar} alt="Foto de Usuário" />
+      <BackgroundOverlay />
+      <HeaderStyle className='logo-container'>
+        <div className="logo-container">
+          <Link to="/">
+            <img className="logo" src={logo} alt="logo" />
+          </Link>
+        </div>
+        <div className='links-container'>
+          <LinkStyle className='links' style={{textDecoration: 'none'}} onClick={() => scrollToSection('about-us')}>Sobre Nós</LinkStyle>
+          <LinkStyle className='links' style={{textDecoration: 'none' }} onClick={() => scrollToSection('activities')}>Atividades</LinkStyle>
+          <LinkStyle className='links' style={{textDecoration: 'none'}} onClick={() => scrollToSection('contact')}>Contato</LinkStyle>
+          <LinkStyleTo className='links' style={{textDecoration: 'none'}} to="/login">Entrar</LinkStyleTo>
+        </div>
       </HeaderStyle>
     </>
   )
