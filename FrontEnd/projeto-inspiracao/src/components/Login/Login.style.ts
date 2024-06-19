@@ -24,13 +24,18 @@ export const BackgroundOverlay = styled.div`
 `;
 
 export const LoginForm = styled.div`
-  background-color: rgba(32, 127, 195, 0.85); /* Ajuste a transparência da div */
+  background-color: rgba(32, 127, 195, 0.85); 
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
   text-align: center;
   position: relative;
+
+  h2 {
+  font-size: 16px;
+  color: white
+  }
 `;
 
 export const Logo = styled.img`
@@ -81,4 +86,28 @@ export const Link = styled.a`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+export const BackButton = styled.button`
+position: absolute;
+top: 1rem;
+left: 1rem;
+display: flex;
+align-items: center;
+background: none;
+border: none;
+color: #007bff;
+cursor: pointer;
+font-size: 1.5rem;
+color: white;
+  img {
+  width: 20%;
+  color: white;
+  filter: invert(100%);
+  background-color: transparent;
+  }
+
+&:hover {
+  color: #0056b3;
+}
 `;

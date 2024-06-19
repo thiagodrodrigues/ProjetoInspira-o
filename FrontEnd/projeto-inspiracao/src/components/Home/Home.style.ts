@@ -82,15 +82,15 @@ export const AboutUs = styled.div`
 }
 
 .column-workers img:first-child {
-  top: 0;
-  left: 30%;
-  transform: rotate(-4deg);
+  top: 8%;
+  left: 8%;
+  transform: rotate(-5deg);
 }
 
 .column-workers img:last-child {
-  top: 50%;
-  left: 35%;
-  transform: rotate(4deg);
+  top: 45%;
+  left: 50%;
+  transform: rotate(5deg);
 }
 
 .column-workers img:hover {

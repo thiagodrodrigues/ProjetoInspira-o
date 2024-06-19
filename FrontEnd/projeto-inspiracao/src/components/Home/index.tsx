@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import fachada from '../../assets/fachada.png';
 import fisioterapia1 from '../../assets/fisioterapia1.jpg';
 import fisioterapeuta from '../../assets/roberta2.png';
+import fisioterapeuta2 from '../../assets/Aline_5.jpg';
 import rosa from '../../assets/margarida1.jpg'
 
 
@@ -100,7 +101,7 @@ const HomePage: React.FC = () => {
           <p className="text-about-us">Além disso, a comunicação aberta e a empatia são fundamentais em nosso atendimento. Queremos que todos os pacientes se sintam ouvidos e compreendidos, e estamos sempre disponíveis para responder a perguntas e fornecer suporte ao longo de sua jornada de reabilitação.</p>
         </div>
         <div className="column-workers">
-          <img src={fisioterapeuta} alt="Foto Seção 3" />
+          <img src={fisioterapeuta2} alt="Foto Seção 3" />
           <img src={fisioterapeuta} alt="Foto Seção 3" />
         </div>
       </div>
