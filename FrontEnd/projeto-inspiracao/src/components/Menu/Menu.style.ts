@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 export const Sidebar = styled.nav`
   width: 20%;
-  height: 500px;
+  min-height: 500px;
+  height: auto;
   background: rgba(32, 127, 195);
   color: white;
   padding: 1rem;

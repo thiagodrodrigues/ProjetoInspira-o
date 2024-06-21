@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from 'react'
-import { Button, Checkbox, CheckboxContainer, Container, Input, Link, LoginForm, Logo, BackgroundOverlay, BackButton } from './Login.style'
+import { Button, Checkbox, CheckboxContainer, Container, Input, Link, LoginForm, Logo, BackgroundOverlay, BackButton, ErrorMessage } from './Login.style'
 import logo from '../../assets/logoColor.png';
 import { useNavigate } from "react-router-dom";
 import { login } from '../../api/Users';
@@ -10,6 +10,7 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const savedEmail = localStorage.getItem('email');
@@ -22,8 +23,6 @@ const LoginPage: React.FC = () => {
       setRememberMe(savedRememberMe);
     }
   }, []);
-  const number = parseInt("1234567", 10).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA", number)   
 
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
@@ -48,8 +47,14 @@ const LoginPage: React.FC = () => {
       localStorage.setItem('owner', `${String(res.data.user.owner)}`);
       localStorage.setItem('checkbox', `${true}`)
     }).then(() => {
+      setErrorMessage('');
       setTimeout(() => navigate('/portal'), 1000)
-    }).catch((err) => {
+    }).catch((err: any) => {
+      console.log(err)
+      setErrorMessage(err.response.data.message);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
       console.log(err);
     });
   };
@@ -69,15 +74,16 @@ const LoginPage: React.FC = () => {
       <BackgroundOverlay />
       <LoginForm onSubmit={handleLogin}>
         <a href='/'>
-        <BackButton>
-          <img src={arrowLeft}/>
-        </BackButton>
+          <BackButton>
+            <img src={arrowLeft} alt="Voltar"/>
+          </BackButton>
         </a>
         <Logo src={logo} alt="Logo da Empresa" />
         <h2>Inspiração Fisioterapia</h2>
         <form>
           <Input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)}/>
           <Input type="password" placeholder="Senha" required value={password} onChange={(e) => setPassword(e.target.value)}/>
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
           <CheckboxContainer>
             <Checkbox type="checkbox" checked={rememberMe} onChange={handleRememberMeChange}/>
             <label htmlFor="checkbox" style={{ color: 'white' }}>Lembrar-me</label>
@@ -90,6 +96,6 @@ const LoginPage: React.FC = () => {
       </LoginForm>
     </Container>
   );
-}
+};
 
 export default LoginPage;

@@ -111,3 +111,9 @@ color: white;
   color: #0056b3;
 }
 `;
+
+export const ErrorMessage = styled.p`
+  color: black;
+  margin-top: 0px;
+  font-size: 12px;
+`;

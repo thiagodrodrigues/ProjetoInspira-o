@@ -4,6 +4,7 @@ import { FooterStyle, FormStyle, InfoStyle, InputStyle, TextAreaStyle, ButtonSty
 import { createContact } from '../../api/Contact';
 import whatsapp from '../../assets/img/whatsapp-white-icon.svg';
 import home from '../../assets/img/home-page-white-icon.svg';
+import instagram from '../../assets/img/black-instagram-icon.svg';
 
 const Footer: React.FC = () => {
   const [name, setName] = useState('');
@@ -65,7 +66,8 @@ const Footer: React.FC = () => {
       <InfoStyle>
         <div>
     <p style={{display: "flex", alignItems: "center"}}><img className="avatar" src={whatsapp} style={{width: "30px", color: "white", padding: "5px"}} alt="icon_whatsapp" /><LinkStyle href="https://wa.me/5531999910113?text=Olá%2C%20gostaria%20de%20agendar%20uma%20consulta%20de%20fisioterapia." target="_blank">(31) 99991-0113</LinkStyle></p>
-    <p style={{display: "flex", alignItems: "center"}}><img className="avatar" src={home} style={{width: "30px", color: "white", padding: "5px"}} alt="icon_whatsapp" /> <LinkStyle href="https://maps.app.goo.gl/hRafNZev4vUrqpqD8" target="_blank">Rua São Gonçalo, 995, Nova Floresta - Belo Horizonte, MG</LinkStyle></p>
+    <p style={{display: "flex", alignItems: "center"}}><img className="avatar" src={home} style={{width: "30px", color: "white", padding: "5px"}} alt="icon_home" /> <LinkStyle href="https://maps.app.goo.gl/hRafNZev4vUrqpqD8" target="_blank">Rua São Gonçalo, 995, Nova Floresta - Belo Horizonte, MG</LinkStyle></p>
+    <p style={{display: "flex", alignItems: "center"}}><img className="avatar" src={instagram} style={{width: "30px", color: "white", padding: "5px", filter: "invert(100%)"}} alt="icon_instagram" /> <LinkStyle href="https://www.instagram.com/fisioalvim/" target="_blank">fisioalvim</LinkStyle></p>
     <br/>
     </div>
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
