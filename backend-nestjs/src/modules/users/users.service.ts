@@ -415,6 +415,27 @@ export class UsersService {
     }
   }
 
+  async getPhysiotherapists(){
+    try {
+      const physiotherapistsFiltered = 
+      await this.usersRepository.createQueryBuilder('users')
+          .leftJoinAndSelect('users.physiotherapist', 'physiotherapist')
+          .select([
+            'users.id',
+            'users.name',
+            'users.physiotherapist',  
+            'physiotherapist.id',
+            'physiotherapist.crefito',
+          ])
+          .where('users.physiotherapist IS NOT NULL')
+          .orderBy('users.name', 'ASC')
+          .getMany();
+      return physiotherapistsFiltered
+    } catch (e) {
+      return this.usersUtil.returnErrorCreate(e);
+    }
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     try {
       const foundUser: UsersEntity | null = await this.usersRepository.findOne({

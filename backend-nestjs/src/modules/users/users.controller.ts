@@ -10,6 +10,7 @@ import { UsersGuard } from './users.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AdminsUserGuard } from '../admins/admins.guard';
 import { OwnerUserGuard } from './owner.guard';
+import { ListPhysiotherapistsDto } from './dto/get-physiotherapists.dto';
 
 @Controller('users')
 @ApiTags('Users')
@@ -301,6 +302,35 @@ export class UsersController {
       pageSize: Number(pageSize),
       pageIndex: Number(pageIndex),
     }, decoded);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(UsersGuard)
+  @ApiOperation({ summary: 'ADMIN - Listar nome de todos os fisioterapeutas para novas consultas' })
+  @Get('physiotherapists')
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de Fisioterapeutas',
+    type: ListPhysiotherapistsDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Credenciais inválidas',
+    type: UnauthorizedException,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Usuário já existe',
+    type: BadRequestException,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Aconteceu um Imprevisto',
+    type: InternalServerErrorException,
+  })
+  async getAllPhysiotherapists(
+  ) {
+    return this.usersService.getPhysiotherapists();
   }
 
   @ApiBearerAuth()

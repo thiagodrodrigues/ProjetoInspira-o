@@ -117,25 +117,16 @@ export class FinancesService {
         filter = '';
       }
       if (!startDate) {
-        console.log("11111")
         let nowDate = dayjs().format('YYYY-MM-DD')
-        console.log("22222")
         if(Number(nowDate.split('-')[2])<16){
-          console.log("33333")
           nowDate = dayjs(nowDate).subtract(1, 'month').format('YYYY-MM-DD')
-          console.log("44444")
           startDate = `${nowDate.split('-')[0]}-${nowDate.split('-')[1]}-01`;
-          console.log("55555")
         } else {
-          console.log("66666")
           startDate = `${nowDate.split('-')[0]}-${nowDate.split('-')[1]}-01`;
-          console.log("77777")
         }
       }
       if (!endDate) {
-        console.log("88888")
         endDate = dayjs(startDate).add(2, 'month').format('YYYY-MM-DD');
-        console.log("99999", startDate, endDate)
       }
       const  financesFiltered =
         await this.financesRepository.find({
@@ -175,7 +166,6 @@ export class FinancesService {
           skip: pageIndex * pageSize || 0,
           take: pageSize || 100,
         });
-        console.log("AAAAAAAAAAAAAAAAAAAA", financesFiltered)
         for(let i=0; i<financesFiltered.length; i++){
           if(dayjs(financesFiltered[i].financeDate).isBefore(dayjs())){
             await this.financesRepository.save({

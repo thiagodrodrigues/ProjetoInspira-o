@@ -34,7 +34,7 @@ export class BlogService {
       if (!filter) {
         filter = '';
       }
-      const  [blogFiltered, total] =
+      const  blogFiltered =
         await this.blogRepository.find({
           where: {
             title: Like(`%${filter}%`),
@@ -46,7 +46,7 @@ export class BlogService {
           skip: pageIndex * pageSize || 0,
           take: pageSize || 100,
         });
-      return { total, blogFiltered };
+      return blogFiltered;
     } catch (e) {
       return this.blogUtils.returnErrorContactCreate(e);
     }
