@@ -29,7 +29,6 @@ const MenuSidebar: React.FC = () => {
       setOwner(savedOwner);
     }
   }, []);
-  console.log(owner)
   return (
     <Sidebar>
       <ul>
@@ -43,7 +42,7 @@ const MenuSidebar: React.FC = () => {
         </ListMenu>
         {permission.includes('Usuário') && (
           <ListMenu>
-            <LinkMenu href="/schedules">Nova Consulta</LinkMenu>
+            <LinkMenu href="/schedules/new">Nova Consulta</LinkMenu>
           </ListMenu>
         )}
         {permission.includes('Usuário') && (
@@ -53,7 +52,7 @@ const MenuSidebar: React.FC = () => {
         )}
         {permission.includes('Fisioterapeuta') && (
           <ListMenu>
-            <LinkMenu href="/schedules">Nova Consulta</LinkMenu>
+            <LinkMenu href="/schedules/new">Nova Consulta</LinkMenu>
           </ListMenu>
         )}
         {permission.includes('Fisioterapeuta') && (

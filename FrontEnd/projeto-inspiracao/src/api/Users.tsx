@@ -30,3 +30,30 @@ export function updateUser(id: string, payload: UserPayload) {
 export function login(payload: LoginPayload) {
   return apiLocal.post(`/users/signIn`, payload);
 }
+
+export function profile() {
+  const USUARIO = localStorage.getItem('token');
+  return apiLocal.get("/users", {
+    headers: {
+      Authorization: `Bearer ${USUARIO}`
+    }
+  });
+}
+
+export function deleteUser() {
+  const USUARIO = localStorage.getItem('token');
+  return apiLocal.delete("/users", {
+    headers: {
+      Authorization: `Bearer ${USUARIO}`
+    }
+  });
+}
+
+export function getPhysiotherapists() {
+  const USUARIO = localStorage.getItem('token');
+  return apiLocal.get("/users/physiotherapists", {
+    headers: {
+      Authorization: `Bearer ${USUARIO}`
+    }
+  });
+}

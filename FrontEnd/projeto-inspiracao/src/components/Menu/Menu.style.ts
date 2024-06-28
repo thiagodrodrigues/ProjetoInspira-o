@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Sidebar = styled.nav`
-  width: 20%;
+  width: 17%;
   min-height: 500px;
   height: auto;
   background: rgba(32, 127, 195);
@@ -19,7 +19,7 @@ export const LinkMenu = styled.a`
   display: flex;
   color: white;
   padding: 10px;
-  font-size: 24px;
+  font-size: 18px;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
@@ -30,7 +30,7 @@ export const Welcome = styled.p`
   color: white;
   padding: 10px;
   padding-bottom: 30px;
-  font-size: 32px;
+  font-size: 24px;
   flex-direction: column;
   align-items: center;
   text-decoration: none;

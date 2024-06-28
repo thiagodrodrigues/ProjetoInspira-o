@@ -53,11 +53,11 @@ export const Button = styled.button`
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  background-color: #28a745;
+  background-color: #1E9B9F;
   color: white;
 
   &:hover {
-    background-color: #218838;
+    background-color: #14686B;
   }
 `;
 

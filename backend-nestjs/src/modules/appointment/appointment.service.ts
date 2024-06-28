@@ -52,7 +52,11 @@ export class AppointmentService {
       if(foundCalendar.available !== (AVAILABLE_CALENDAR.FREE ||  AVAILABLE_CALENDAR.CANCELED)) {
         throw new BadRequestException(APPOINTMENTS_ERRORS.dateUnavailable);
       }
-      const appointmentcCeate = this.appointmentRepository.create(createAppointmentDto);
+      const appointmentcCeate = this.appointmentRepository.create({
+        calendar: {id: createAppointmentDto.calendarId},
+        physiotherapistId: createAppointmentDto.physiotherapistId,
+        patientId: createAppointmentDto.patientId
+      });
       const appointmentSaved = await this.appointmentRepository.save(appointmentcCeate);
       await this.calendarService.updateAvailableCalendar(createAppointmentDto.calendarId, AVAILABLE_CALENDAR.SCHEDULED)
       return appointmentSaved

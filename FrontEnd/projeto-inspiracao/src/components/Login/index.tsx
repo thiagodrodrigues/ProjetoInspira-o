@@ -46,6 +46,11 @@ const LoginPage: React.FC = () => {
       localStorage.setItem('email', `${String(res.data.user.email)}`);
       localStorage.setItem('owner', `${String(res.data.user.owner)}`);
       localStorage.setItem('checkbox', `${true}`)
+      if(res.data.permission == "Usuário"){
+        localStorage.setItem('idPatient', `${String(res.data.patient.id)}`);
+      } else if(res.data.permission == "Fisioterapeuta"){
+        localStorage.setItem('idPhysiotherapist', `${String(res.data.physiotherapist.id)}`);
+      }
     }).then(() => {
       setErrorMessage('');
       setTimeout(() => navigate('/portal'), 1000)

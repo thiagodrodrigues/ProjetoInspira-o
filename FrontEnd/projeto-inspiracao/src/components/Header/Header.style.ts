@@ -11,9 +11,9 @@ export const HeaderStyle = styled.div `
 
   .logo {
     min-width: 250px;
-    max-width: 400px;
+    max-width: 300px;
     min-height: 120px;
-    max-height: 200px;
+    max-height: 150px;
   }
 
   .links-container{

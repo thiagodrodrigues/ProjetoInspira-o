@@ -2,13 +2,16 @@ import styled from 'styled-components';
 import backgroundImg from '../../assets/background1.png';
 
 export const Container = styled.div`
-  width: 80%;
-  height: 100vh;
-  float: right;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-image: url(${backgroundImg});
   background-size: cover;
   background-position: center;
   opacity: 0.2;
+  z-index: -1; /* Coloca o background atrás do conteúdo */
 `;
 
 export const Content = styled.div`

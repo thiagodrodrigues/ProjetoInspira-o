@@ -5,8 +5,9 @@ import * as jwt_decode from "jwt-decode"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import ContentComponent from "../components/Content";
+import Profile from "../components/Profile";
 
-function PortalPage() {
+function ProfilePage() {
   const navigate = useNavigate();
   const USUARIO = localStorage.getItem('token');
   
@@ -33,10 +34,11 @@ function PortalPage() {
       <div style={{display: "flex", position: "relative"}}>
         <Menu />
         <ContentComponent/>  
+        <Profile />
       </div>
       <Footer />
     </>
   )
 }
 
-export default PortalPage
+export default ProfilePage
