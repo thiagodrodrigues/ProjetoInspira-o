@@ -12,6 +12,11 @@ export enum STATUS_TRANSACTION {
   LATE = 'Atrasada',
 }
 
+export enum TYPE_OWNER {
+  OWNER = 'Proprietário',
+  PHYSIOTHERAPIST = 'Fisioterapeuta',
+}
+
 export enum TYPE_PAYMENT {
   MONEY = 'Dinheiro',
   CREDIT = 'Cartão de Crédito',

@@ -12,6 +12,7 @@ import { AVAILABLE_CALENDAR } from './modules/calendar/calendar.enum';
 import { AppointmentEntity } from './modules/appointment/entities/appointment.entity';
 import { VariableFieldEntity } from './modules/finances/entities/variableField.entity';
 import { CashEntity } from './modules/finances/entities/cash.entity';
+import { TYPE_OWNER } from './shared/constants/financesType.appointment.enum';
 
 
 let pass = "123456";
@@ -330,6 +331,7 @@ export class AppService {
       id: faker.string.uuid(),
       wallet: 'Principal',
       balance: 0,
+      owner: TYPE_OWNER.OWNER
     };
     cashToCreate.push(cashField);
     return await this.cashRepository.save(cashToCreate);

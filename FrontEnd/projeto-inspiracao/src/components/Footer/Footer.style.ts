@@ -92,7 +92,7 @@ export const LinkStyle = styled.a`
 `
 
 export const Copyright = styled.div `
-    width: 100vw;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;

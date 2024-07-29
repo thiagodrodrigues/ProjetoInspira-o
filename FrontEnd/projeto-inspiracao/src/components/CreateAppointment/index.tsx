@@ -155,7 +155,7 @@ const CreateAppointment: React.FC = () => {
         physiotherapistId: idPhysiotherapistSelect,
       }).then(() => {
         setDisplayModal('none')
-        setTimeout(() => navigate('/portal'), 1000)
+        setTimeout(() => navigate('/patient/schedules'), 1000)
       });
     } catch (error) {
       console.error('Erro ao deletar o usuário', error);

@@ -5,29 +5,12 @@ import * as jwt_decode from "jwt-decode"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ContentComponent from "../components/Content";
-import Profile from "../components/Profile";
+import FinanceComponent from "../components/Finances";
 
-function ProfilePage() {
+function FinancesPage() {
   const navigate = useNavigate();
   const [isTokenValid, setIsTokenValid] = useState(false);
-/*   
-  useEffect(() => {
-    if (!USUARIO) {
-      console.log("Token não encontrado, redirecionando para login");
-      navigate('/login');
-    } else {
-      try {
-        const decoded = jwt_decode.jwtDecode(USUARIO);
-        const currentTime = Date.now() / 1000;
-        if (!decoded || decoded.exp! < currentTime) {
-          navigate('/login');
-        }
-      } catch (error) {
-        console.error("Erro ao decodificar o token:", error);
-        navigate('/login');
-      }
-    }
-  }, [USUARIO, navigate]); */
+
   useEffect(() => {
     const checkTokenValidity = () => {
       const USUARIO = localStorage.getItem('token');
@@ -65,11 +48,11 @@ function ProfilePage() {
       <div style={{display: "flex", position: "relative"}}>
         <Menu />
         <ContentComponent/>  
-        <Profile />
+        <FinanceComponent />
       </div>
       <Footer />
     </>
   )
 }
 
-export default ProfilePage
+export default FinancesPage

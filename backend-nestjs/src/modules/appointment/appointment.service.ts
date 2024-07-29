@@ -49,7 +49,7 @@ export class AppointmentService {
       if (!foundCalendar) {
         throw new BadRequestException(CALENDARS_ERRORS.calendarNotExists);
       }
-      if(foundCalendar.available !== (AVAILABLE_CALENDAR.FREE ||  AVAILABLE_CALENDAR.CANCELED)) {
+      if(foundCalendar.available !== AVAILABLE_CALENDAR.FREE && foundCalendar.available !==  AVAILABLE_CALENDAR.CANCELED) {
         throw new BadRequestException(APPOINTMENTS_ERRORS.dateUnavailable);
       }
       const appointmentcCeate = this.appointmentRepository.create({
@@ -114,6 +114,22 @@ export class AppointmentService {
       return appointmentsFound;
     } catch (e) {
       return this.appointmentsUtils.returnErrorGetPatients(e);
+    }
+  }
+
+  async findOneAppointment(id: string) {
+    try {
+      const foundAppointment: AppointmentEntity | null = await this.appointmentRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+      if (!foundAppointment) {
+        throw new BadRequestException(USERS_ERRORS.contactNotExists);
+      }
+      return foundAppointment
+    } catch (e) {
+      this.appointmentsUtils.returnErrorCreate(e);
     }
   }
 
@@ -190,14 +206,22 @@ export class AppointmentService {
   async update(id: string, updateAppointmentDto: UpdateAppointmentDto) {
     try {
       const foundAppointment: AppointmentEntity | null = await this.appointmentRepository.findOne({
+        relations: ['calendar'],
         where: {
           id: id,
         },
-      });
+      })
       if (!foundAppointment) {
         throw new BadRequestException(USERS_ERRORS.contactNotExists);
       }
-      await this.calendarService.updateAvailableCalendar(updateAppointmentDto.calendarId, updateAppointmentDto.status)
+      await this.calendarService.updateAvailableCalendar(foundAppointment.calendar.id, updateAppointmentDto.status)
+      if(foundAppointment.calendar.available == AVAILABLE_CALENDAR.SCHEDULED && updateAppointmentDto.status == AVAILABLE_CALENDAR.CANCELED){
+        await this.appointmentRepository.save({
+          ...foundAppointment,
+          calendar: null
+        });
+        return this.appointmentRepository.softRemove(foundAppointment)
+      }
       updateAppointmentDto.status = undefined;
       return this.appointmentRepository.save({
         ...foundAppointment,

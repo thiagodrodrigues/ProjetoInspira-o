@@ -47,7 +47,7 @@ const LoginPage: React.FC = () => {
       localStorage.setItem('owner', `${String(res.data.user.owner)}`);
       localStorage.setItem('checkbox', `${true}`)
       if(res.data.permission == "Usuário"){
-        localStorage.setItem('idPatient', `${String(res.data.patient.id)}`);
+        localStorage.setItem('idPatient', `${String(res.data.user.patient.id)}`);
       } else if(res.data.permission == "Fisioterapeuta"){
         localStorage.setItem('idPhysiotherapist', `${String(res.data.physiotherapist.id)}`);
       }

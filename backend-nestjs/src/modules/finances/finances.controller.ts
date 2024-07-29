@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadRequestException, InternalServerErrorException, UnauthorizedException, Query, ForbiddenException, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadRequestException, InternalServerErrorException, UnauthorizedException, Query, ForbiddenException, Put, Headers } from '@nestjs/common';
 import { FinancesService } from './finances.service';
 import { CreateFinanceDto } from './dto/create-finance.dto';
 import { UpdateFinanceDto } from './dto/update-finance.dto';
@@ -7,6 +7,7 @@ import { OwnerUserGuard } from '../users/owner.guard';
 import { FinanceEntity } from './entities/finance.entity';
 import { VariableFieldEntity } from './entities/variableField.entity';
 import { CreateCashDto } from './dto/create-cash-finance.dto';
+import * as jwt from 'jsonwebtoken';
 
 @Controller('finances')
 @ApiTags('Finances')
@@ -43,7 +44,7 @@ export class FinancesController {
   @ApiResponse({
     status: 201,
     description: 'Nova conta criada.',
-    type: CreateFinanceDto,
+    type: CreateCashDto,
   })
   @ApiResponse({
     status: 404,
@@ -57,6 +58,33 @@ export class FinancesController {
   })  
   createCash(@Body() createCashDto: CreateCashDto) {
     return this.financesService.createCash(createCashDto);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(OwnerUserGuard)
+  @ApiOperation({ summary: 'Owner - Listar todas as contas' })
+  @Get('cash')
+  @ApiResponse({
+    status: 200,
+    description: 'Lista todas as contas',
+    type: [CreateCashDto],
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Credenciais inválidas',
+    type: UnauthorizedException,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Aconteceu um Imprevisto',
+    type: InternalServerErrorException,
+  })
+  async getAllCashOwner(
+    @Headers('Authorization') authorization: string,
+  ): Promise<CreateCashDto[]> {
+    const token = authorization.split(' ')[1];
+    const decoded = jwt.verify(token, String(process.env.SECRET_KEY));
+    return this.financesService.findAllCash(decoded);
   }
 
   @ApiBearerAuth()
@@ -82,13 +110,19 @@ export class FinancesController {
   @ApiQuery({ name: 'startDate', required: false, type: String })
   @ApiQuery({ name: 'endDate', required: false, type: String })
   @ApiQuery({ name: 'filter', required: false, type: String })
+  @ApiQuery({ name: 'financeTransaction', required: false, type: String })
+  @ApiQuery({ name: 'financeType', required: false, type: String })
+  @ApiQuery({ name: 'status', required: false, type: String })
   @ApiQuery({ name: 'pageSize', required: false, type: Number })
   @ApiQuery({ name: 'pageIndex', required: false, type: Number })
   async getAllFinancesOwner(
-    @Param('idCash') idCash: string,
+    @Query('idCash') idCash: string,
     @Query('startDate') startDate?: string,
     @Query('endDate') endDate?: string,
     @Query('filter') filter?: string,
+    @Query('financeTransaction') financeTransaction?: string,
+    @Query('financeType') financeType?: string,
+    @Query('status') status?: string,
     @Query('pageSize') pageSize?: string,
     @Query('pageIndex') pageIndex?: string,
   ): Promise<FinanceEntity[]> {
@@ -96,6 +130,9 @@ export class FinancesController {
       startDate: startDate,
       endDate: endDate,
       filter: filter,
+      financeTransaction: financeTransaction,
+      financeType: financeType,
+      status: status,
       pageSize: Number(pageSize),
       pageIndex: Number(pageIndex),
     }, idCash);

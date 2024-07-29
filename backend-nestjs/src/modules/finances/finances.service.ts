@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateFinanceDto } from './dto/create-finance.dto';
 import { UpdateFinanceDto } from './dto/update-finance.dto';
 import { Between, Like, Repository } from 'typeorm';
@@ -7,10 +7,11 @@ import { CashEntity } from './entities/cash.entity';
 import { FinancesUtils } from './finances.utils';
 import { FINANCES_ERRORS } from 'src/shared/helpers/errors/finances-errors.helpers';
 import { VariableFieldEntity } from './entities/variableField.entity';
-import { STATUS_TRANSACTION, TYPE_FINCANCES } from 'src/shared/constants/financesType.appointment.enum';
+import { STATUS_TRANSACTION, TYPE_FINCANCES, TYPE_OWNER } from 'src/shared/constants/financesType.appointment.enum';
 import { FiltersPaginationDto } from 'src/shared/dto/filters-pagination.dto';
 import * as dayjs from 'dayjs';
 import { CreateCashDto } from './dto/create-cash-finance.dto';
+import { USERS_ERRORS } from 'src/shared/helpers/errors/users-errors.helpers';
 
 @Injectable()
 export class FinancesService {
@@ -100,6 +101,41 @@ export class FinancesService {
     }
   }
 
+  async findAllCash(decoded: any): Promise<any> {
+    try {
+      if(typeof decoded == `string`){
+        throw new UnauthorizedException(USERS_ERRORS.userUnauthorized)
+      }
+      let totalCashs = []
+      if(decoded.owner){
+        const foundCashOwner: CashEntity[] | null = await this.cashRepository.find({
+          where: {
+            owner: TYPE_OWNER.OWNER
+          }
+        });
+        for(let i=0; i<foundCashOwner.length; i++){
+          totalCashs.push(foundCashOwner[i])
+        }
+      }
+      const foundCashPhysiotherapist: CashEntity[] | null = await this.cashRepository.find({
+        where: {
+          owner: TYPE_OWNER.PHYSIOTHERAPIST,
+          id_owner: decoded.id
+        }
+      });
+      for(let i=0; i<foundCashPhysiotherapist.length; i++){
+        totalCashs.push(foundCashPhysiotherapist[i])
+      }
+      if (!foundCashPhysiotherapist) {
+        throw new BadRequestException(FINANCES_ERRORS.cashNotExixts);
+      }
+      return totalCashs;
+    } catch (e) {
+      console.log(e)
+      return this.financesUtils.returnErrorContactCreate(e);
+    }
+  }
+
   async findAll(filtersDTO: FiltersPaginationDto, idCash: string): Promise<any> {
     try {
       const foundCash: CashEntity | null = await this.cashRepository.findOne({
@@ -111,7 +147,7 @@ export class FinancesService {
         throw new BadRequestException(FINANCES_ERRORS.cashNotExixts);
       }
       const { pageSize, pageIndex } = filtersDTO;
-      let { filter, startDate, endDate } = filtersDTO;
+      let { filter, startDate, endDate, financeTransaction, financeType, status } = filtersDTO;
 
       if (!filter) {
         filter = '';
@@ -128,33 +164,25 @@ export class FinancesService {
       if (!endDate) {
         endDate = dayjs(startDate).add(2, 'month').format('YYYY-MM-DD');
       }
-      const  financesFiltered =
+      if (!financeTransaction) {
+        financeTransaction = "";
+      }
+      if (!financeType) {
+        financeType = "";
+      }
+      if (!status) {
+        status = "";
+      }
+      endDate = dayjs(endDate).add(12, 'hours').format('YYYY-MM-DDTHH:mm:ss')
+        const  financesFiltered =
         await this.financesRepository.find({
           where: [
           {
             financeDate: Between(new Date(startDate), new Date(endDate)),
-            financeType: Like(`%${filter}%`),
-            cash: {
-              id: idCash
-            }
-          },
-          {
-            financeDate: Between(new Date(startDate), new Date(endDate)),
-            financeCategory: Like(`%${filter}%`),
-            cash: {
-              id: idCash
-            }
-          },
-          {
-            financeDate: Between(new Date(startDate), new Date(endDate)),
+            financeType: Like(`%${financeType}%`),
+            transaction: Like(`%${financeTransaction}%`),
             financeDescription: Like(`%${filter}%`),
-            cash: {
-              id: idCash
-            }
-          },
-          {
-            financeDate: Between(new Date(startDate), new Date(endDate)),
-            status: Like(`%${filter}%`),
+            status: Like(`%${status}%`),
             cash: {
               id: idCash
             }
@@ -167,7 +195,7 @@ export class FinancesService {
           take: pageSize || 100,
         });
         for(let i=0; i<financesFiltered.length; i++){
-          if(dayjs(financesFiltered[i].financeDate).isBefore(dayjs())){
+          if(dayjs(financesFiltered[i].financeDate).isBefore(dayjs()) && financesFiltered[i].status == STATUS_TRANSACTION.PENDING){
             await this.financesRepository.save({
               ...financesFiltered[i],
               status: STATUS_TRANSACTION.LATE
@@ -257,11 +285,37 @@ export class FinancesService {
         });
         const field_saved = await this.variableFieldRepository.save(field_create);
       }
-      if(updateFinanceDto.status == STATUS_TRANSACTION.PAY){
+      if(updateFinanceDto.status == STATUS_TRANSACTION.PAY && foundFinance.status == STATUS_TRANSACTION.PAY){
         if(updateFinanceDto.financeType == TYPE_FINCANCES.REVENUE){
-          foundCash.balance = Number(foundCash.balance) + Number(updateFinanceDto.value);
+          foundCash.balance = Number(foundCash.balance) - Number(foundFinance.value) + Number(updateFinanceDto.value);
         } else if(updateFinanceDto.financeType == TYPE_FINCANCES.EXPENSES){
-          foundCash.balance = Number(foundCash.balance) - Number(updateFinanceDto.value);
+          foundCash.balance = Number(foundCash.balance) + Number(foundFinance.value) - Number(updateFinanceDto.value);
+        }
+        const finances_create = this.financesRepository.create(updateFinanceDto);
+        const finances_saved = await this.financesRepository.save(finances_create);
+        const cash_saved = await this.cashRepository.save(foundCash);
+        return {
+          finances: finances_saved,
+          cash: cash_saved
+        }
+      } else if(updateFinanceDto.status == STATUS_TRANSACTION.PENDING && foundFinance.status == STATUS_TRANSACTION.PAY){
+        if(updateFinanceDto.financeType == TYPE_FINCANCES.REVENUE){
+          foundCash.balance = Number(foundCash.balance) - Number(foundFinance.value);
+        } else if(updateFinanceDto.financeType == TYPE_FINCANCES.EXPENSES){
+          foundCash.balance = Number(foundCash.balance) + Number(foundFinance.value);
+        }
+        const finances_create = this.financesRepository.create(updateFinanceDto);
+        const finances_saved = await this.financesRepository.save(finances_create);
+        const cash_saved = await this.cashRepository.save(foundCash);
+        return {
+          finances: finances_saved,
+          cash: cash_saved
+        }
+      } else if(updateFinanceDto.status == STATUS_TRANSACTION.PAY && foundFinance.status !== STATUS_TRANSACTION.PAY){
+        if(updateFinanceDto.financeType == TYPE_FINCANCES.REVENUE){
+          foundCash.balance = Number(foundCash.balance) + Number(foundFinance.value);
+        } else if(updateFinanceDto.financeType == TYPE_FINCANCES.EXPENSES){
+          foundCash.balance = Number(foundCash.balance) - Number(foundFinance.value);
         }
         const finances_create = this.financesRepository.create(updateFinanceDto);
         const finances_saved = await this.financesRepository.save(finances_create);
@@ -280,13 +334,18 @@ export class FinancesService {
         }
       }
     }  catch (e) {
+      console.log("8888888888888", e)
       this.financesUtils.returnErrorContactCreate(e);
     }
   }
 
   async remove(id: string) {
     try {
-      const financeFound = await this.financesRepository.findOneBy({ id });
+      console.log(id)
+      const financeFound = await this.financesRepository.findOne({
+        where: {id: id},
+        relations: ["cash"]
+      });
       if (!financeFound) {
         throw new NotFoundException(FINANCES_ERRORS.financeNotExixts);
       }
@@ -309,6 +368,7 @@ export class FinancesService {
       const cash_saved = await this.cashRepository.save(foundCash);
       return;
     } catch (e) {
+      console.log(e)
       return this.financesUtils.returnErrorContactCreate(e);
     }
   }

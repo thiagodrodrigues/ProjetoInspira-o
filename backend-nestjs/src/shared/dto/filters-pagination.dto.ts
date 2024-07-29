@@ -17,4 +17,13 @@ export class FiltersPaginationDto {
 
   @IsString()
   endDate?: string;
+
+  @IsString()
+  financeType?: string;
+
+  @IsString()
+  financeTransaction?: string;
+
+  @IsString()
+  status?: string;
 }

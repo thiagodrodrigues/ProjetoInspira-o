@@ -5,9 +5,9 @@ import * as jwt_decode from "jwt-decode"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ContentComponent from "../components/Content";
-import Profile from "../components/Profile";
+import GetAppointment from "../components/GetAppointment";
 
-function ProfilePage() {
+function GetAppointmentPage() {
   const navigate = useNavigate();
   const [isTokenValid, setIsTokenValid] = useState(false);
 /*   
@@ -65,11 +65,11 @@ function ProfilePage() {
       <div style={{display: "flex", position: "relative"}}>
         <Menu />
         <ContentComponent/>  
-        <Profile />
+        <GetAppointment />
       </div>
       <Footer />
     </>
   )
 }
 
-export default ProfilePage
+export default GetAppointmentPage

@@ -1,9 +1,4 @@
 import styled from 'styled-components';
-import esportiva from '../../assets/esportiva.jpg';
-import idoso from '../../assets/idoso2.jpg';
-import pilates from '../../assets/pilates.jpg';
-import neuro from '../../assets/neuro.jpg';
-import ortopedica from '../../assets/ortopedica.jpg';
 
 export const Container = styled.div`
   width: 80%;
@@ -63,26 +58,3 @@ export const CardsContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
-
-export const activities = [
-  {
-    name: 'Fisioterapia Traumato-Ortopédica',
-    image: ortopedica
-  },
-  {
-    name: 'Fisioterapia Esportiva',
-    image: esportiva
-  },
-  {
-    name: 'Fisioterapia Neurofuncional',
-    image: neuro
-  },
-  {
-    name: 'Fisioterapia em Gerontologia',
-    image: idoso
-  },
-  {
-    name: 'Pilates',
-    image: pilates
-  }
-];

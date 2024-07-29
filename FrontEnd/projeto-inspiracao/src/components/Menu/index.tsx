@@ -47,37 +47,37 @@ const MenuSidebar: React.FC = () => {
         )}
         {permission.includes('Usuário') && (
           <ListMenu>
-            <LinkMenu href="/patient/schedules">Histórico de Consultas</LinkMenu>
+            <LinkMenu href="/patient/schedules">Minhas Consultas</LinkMenu>
           </ListMenu>
         )}
         {permission.includes('Fisioterapeuta') && (
           <ListMenu>
-            <LinkMenu href="/schedules/new">Nova Consulta</LinkMenu>
+            <LinkMenu href="/physiotherapist/schedules/new">Nova Consulta</LinkMenu>
           </ListMenu>
         )}
         {permission.includes('Fisioterapeuta') && (
           <ListMenu>
-            <LinkMenu href="/physioterapist/schedules">Agendamentos</LinkMenu>
+            <LinkMenu href="/physiotherapist/schedules">Agendamentos</LinkMenu>
           </ListMenu>
         )}
         {permission.includes('Fisioterapeuta') && (
           <ListMenu>
-            <LinkMenu href="/physioterapist/patients">Pacientes</LinkMenu>
+            <LinkMenu href="/physiotherapist/patients">Pacientes</LinkMenu>
           </ListMenu>
         )}
         {owner.includes('true') && (
           <ListMenu>
-            <LinkMenu href="/physioterapist/patients">Blog</LinkMenu>
+            <LinkMenu href="/owner/blog">Blog</LinkMenu>
+          </ListMenu>
+        )}
+        {(owner.includes('true') || permission.includes('Fisioterapeuta')) && (
+          <ListMenu>
+            <LinkMenu href="/owner/finances">Finanças</LinkMenu>
           </ListMenu>
         )}
         {owner.includes('true') && (
           <ListMenu>
-            <LinkMenu href="/physioterapist/patients">Finanças</LinkMenu>
-          </ListMenu>
-        )}
-        {owner.includes('true') && (
-          <ListMenu>
-            <LinkMenu href="/physioterapist/patients">Contatos ({messages})</LinkMenu>
+            <LinkMenu href="/owner/contacts">Contatos ({messages})</LinkMenu>
           </ListMenu>
         )}
       </ul>

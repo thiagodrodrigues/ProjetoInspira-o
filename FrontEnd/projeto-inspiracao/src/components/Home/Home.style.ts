@@ -69,16 +69,27 @@ export const AboutUs = styled.div`
 }
 
 .column-workers {
-  position: relative;
-  width: 50%; /* Define a largura da seção */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  width: 50%; /* Ajuste a largura da seção */
+  padding: 10px;
 }
 
 .column-workers img {
-  width: 55%;
+  width: 40%; /* Ajuste a largura das imagens */
+  height: 40%;
   border-radius: 10px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  position: absolute;
+  margin: 10px;
   transition: transform 0.3s, box-shadow 0.3s;
+  @media (max-width: 768px) {
+    width: 45%;
+  }
+  @media (max-width: 480px) {
+    width: 90%;
+  }
 }
 
 .column-workers img:first-child {

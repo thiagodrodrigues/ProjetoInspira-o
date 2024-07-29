@@ -9,6 +9,7 @@ import { STATUS_APPOINTMENTS } from 'src/shared/constants/status.appointment.enu
 import * as jwt from 'jsonwebtoken';
 import { UsersGuard } from '../users/users.guard';
 import { PhysiotherapistsUserGuard } from '../physiotherapists/physiotherapists.guard';
+import { AVAILABLE_CALENDAR } from '../calendar/calendar.enum';
 
 @Controller('appointment')
 @ApiTags('Appointments')
@@ -51,6 +52,37 @@ export class AppointmentController {
     const token = authorization.split(' ')[1];
     const decoded = jwt.verify(token, String(process.env.SECRET_KEY));
     return this.appointmentService.create(decoded, createAppointmentDto);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(UsersGuard)
+  @ApiOperation({ summary: 'PACIENTE | FISIOTERAPEUTA - Cancelar Consulta' })
+  @Delete('cancel/:id')
+  @ApiResponse({
+    status: 201,
+    description: 'Consulta cancelada com sucesso.',
+    type: UpdateAppointmentDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Credenciais inválidas',
+    type: UnauthorizedException,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Dados de consulta inválidos.',
+    type: BadRequestException,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Aconteceu um Imprevisto',
+    type: InternalServerErrorException,
+  })
+  async cancelAppointment(
+    @Param('id') id: string
+  ): Promise<AppointmentEntity> {
+    const status = {status: AVAILABLE_CALENDAR.CANCELED}
+    return this.appointmentService.update(id, status);
   }
 
   @ApiBearerAuth()
@@ -144,7 +176,7 @@ export class AppointmentController {
     description: 'Aconteceu um Imprevisto',
     type: InternalServerErrorException,
   })
-  @Get(':id')
+  @Get('physiotherapist/:id')
   findOne(
     @Param('id do Paciente') id: string
   ) {

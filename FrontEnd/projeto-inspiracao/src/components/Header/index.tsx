@@ -1,6 +1,6 @@
 import logo from '../../assets/logoColor-transparente.png'
 import React, { FormEvent } from 'react'
-import { BackgroundOverlay, HeaderStyle, LinkStyle } from './Header.style'
+import { BackgroundOverlay, HeaderStyle, LinkStyle, LinkStyleTo } from './Header.style'
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -38,8 +38,10 @@ const index: React.FC = () => {
         </div>
         <div className='links-container'>
           <LinkStyle className='links' style={{textDecoration: 'none'}} onClick={() => scrollToSection('about-us')}>Sobre Nós</LinkStyle>
+          <LinkStyle className='links' style={{textDecoration: 'none' }} onClick={() => scrollToSection('physiotherapists')}>Profissionais</LinkStyle>
           <LinkStyle className='links' style={{textDecoration: 'none' }} onClick={() => scrollToSection('activities')}>Atividades</LinkStyle>
           <LinkStyle className='links' style={{textDecoration: 'none'}} onClick={() => scrollToSection('contact')}>Contato</LinkStyle>
+          <LinkStyleTo className='links' style={{textDecoration: 'none'}} to="">Blog</LinkStyleTo>
           <LinkStyle className='links' style={{textDecoration: 'none'}} onClick={handleClick}>Entrar</LinkStyle>
         </div>
       </HeaderStyle>

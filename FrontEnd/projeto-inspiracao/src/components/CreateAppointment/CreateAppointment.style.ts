@@ -93,6 +93,7 @@ export const StyledCalendarWrapper = styled.div`
   font-size: 16px;
   margin-top: 8px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .react-calendar__navigation button:disabled {
@@ -127,9 +128,7 @@ export const StyledCalendarWrapper = styled.div`
   background: #e0e0e0;
 }
 
-.react-calendar__month-view__days__day--weekend {
-  color: #d10000;
-}
+
 
 .react-calendar__month-view__weekdays__weekday abbr {
   text-decoration: none;
@@ -147,6 +146,8 @@ export const StyledCalendarWrapper = styled.div`
 
 .weekend-unavailable {
 highlight;
+color: red;
+cursor: auto;
 }
 
 .available {
@@ -157,11 +158,13 @@ highlight;
 
 .unavailable {
   color: black;
+  cursor: auto;
 }
 
 .date-select {
   border-radius: 100%;
   background-color: rgba(32, 127, 195, 0.8);
+  corlor: white;
 }
 `;
 
@@ -182,8 +185,8 @@ export const RadioButton = styled.label`
 `;
 
 export const Button = styled.a`
-  padding: 10px;
-  font-size: 1rem;
+  padding: 15px;
+  font-size: 1.1rem;
   margin-bottom: 10px;
   border: none;
   border-radius: 3px;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import backgroundImg from '../../assets/background1.png';
+import backgroundImg from '../../assets/background2.jpeg';
 
 export const Container = styled.div`
   position: absolute;
@@ -8,7 +8,8 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   background-image: url(${backgroundImg});
-  background-size: cover;
+  background-size: 100% auto;
+  background-repeat: repeat-y;
   background-position: center;
   opacity: 0.2;
   z-index: -1; /* Coloca o background atrás do conteúdo */

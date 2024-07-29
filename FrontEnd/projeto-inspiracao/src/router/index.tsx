@@ -7,6 +7,9 @@ import CreateUserPage from "../pages/CreateUser.tsx";
 import PortalPage from "../pages/Portal.tsx";
 import ProfilePage from "../pages/Profile.tsx";
 import CreateAppointmentPage from "../pages/CreateAppointment.tsx";
+import GetAppointmentPage from "../pages/GetAppointment.tsx";
+import GetContactPage from "../pages/GetContacts.tsx";
+import FinancesPage from "../pages/Finances.tsx";
 
 
 const router = createBrowserRouter([
@@ -33,6 +36,18 @@ const router = createBrowserRouter([
   {
       path: "/schedules/new",
       element: <CreateAppointmentPage />,
+  },
+  {
+      path: "/patient/schedules",
+      element: <GetAppointmentPage />,
+  },
+  {
+      path: "/owner/contacts",
+      element: <GetContactPage />,
+  },
+  {
+      path: "/owner/finances",
+      element: <FinancesPage />,
   },
 ])
 
