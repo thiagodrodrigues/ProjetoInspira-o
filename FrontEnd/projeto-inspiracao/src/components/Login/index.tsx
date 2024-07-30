@@ -49,7 +49,7 @@ const LoginPage: React.FC = () => {
       if(res.data.permission == "Usuário"){
         localStorage.setItem('idPatient', `${String(res.data.user.patient.id)}`);
       } else if(res.data.permission == "Fisioterapeuta"){
-        localStorage.setItem('idPhysiotherapist', `${String(res.data.physiotherapist.id)}`);
+        localStorage.setItem('idPhysiotherapist', `${String(res.data.user.physiotherapist.id)}`);
       }
     }).then(() => {
       setErrorMessage('');

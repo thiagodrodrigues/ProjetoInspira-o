@@ -11,16 +11,49 @@ interface LoginPayload {
   email: string;
   password: string;
 }
+
+interface Admin {
+  id?: string;
+  permission: string;
+}
+
+interface Physhiotherapist {
+  id?: string;
+  crefito: string;
+}
+
+interface Patient {
+  id?: string;
+  phone: string;
+  birth: string;
+  sex: string;
+  profession: string;
+  medical: string;
+  lifestyle: string;
+  condition: string;
+  comments: string;
+}
+
+interface User {
+  id?: string;
+  name: string;
+  email: string;
+  password?: string;
+  owner: boolean;
+  admin?: Admin;
+  patient?: Patient;
+  physiotherapist?: Physhiotherapist;
+}
 export function createUser(payload: UserPayload) {
   return apiLocal.post("/users/new", payload);
 }
 
-export function updateUser(id: string, payload: UserPayload) {
+export function updateUser(payload: User) {
+  console.log("123")
   const USUARIO = localStorage.getItem('token');
+  console.log("456")
 
-/*   const token = USUARIO;
-  const decoded : any = jwt_decode.jwtDecode(token!); */
-  return apiLocal.put(`/users/${id}`, payload, {
+  return apiLocal.put(`/users/`, payload, {
     headers: {
       Authorization: `Bearer ${USUARIO}`
     }

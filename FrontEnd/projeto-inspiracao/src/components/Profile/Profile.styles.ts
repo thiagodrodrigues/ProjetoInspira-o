@@ -73,7 +73,6 @@ export const ButtonContainer = styled.div`
 `;
 
 export const ModalOverlay = styled.div`
-  display: ${(props: any) => (props = 'false' ? 'block' : 'none')};
   position: fixed;
   z-index: 1;
   left: 0;
@@ -127,4 +126,36 @@ export const ActionButton = styled.a`
   &:hover {
     background-color: #e0e0e0;
   }
+`;
+
+export const LabelModal = styled.label`
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+`;
+
+export const RadioModal = styled.label`
+  display: flex;
+`;
+
+export const SpanModal = styled.label`
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  font-family: Arial, sans-serif;
+  padding: 5px;
+`;
+
+export const ErrorMessage = styled.span`
+  font-weight: bold;
+  font-size: 12px;
+  color: red;
+`;
+
+export const InputModal = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 `;

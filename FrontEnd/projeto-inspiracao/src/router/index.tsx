@@ -46,7 +46,7 @@ const router = createBrowserRouter([
       element: <GetContactPage />,
   },
   {
-      path: "/owner/finances",
+      path: "/finances",
       element: <FinancesPage />,
   },
 ])

@@ -72,7 +72,7 @@ const MenuSidebar: React.FC = () => {
         )}
         {(owner.includes('true') || permission.includes('Fisioterapeuta')) && (
           <ListMenu>
-            <LinkMenu href="/owner/finances">Finanças</LinkMenu>
+            <LinkMenu href="/finances">Finanças</LinkMenu>
           </ListMenu>
         )}
         {owner.includes('true') && (
